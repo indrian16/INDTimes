@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/navCategory"
+        android:title="@string/category">
+
+        <menu>
+
+            <group android:checkableBehavior="single">
+
+                <item
+                    android:id="@+id/catAll"
+                    android:title="@string/all"
+                    android:icon="@drawable/icons_all" />
+
+                <item
+                    android:id="@+id/catBusiness"
+                    android:title="@string/business"
+                    android:icon="@drawable/ic_business" />
+
+                <item
+                    android:id="@+id/catEntertainment"
+                    android:title="@string/entertainment"
+                    android:icon="@drawable/icons8_theatre_mask_100" />
+
+                <item
+                    android:id="@+id/catHealth"
+                    android:title="@string/health"
+                    android:icon="@drawable/icons8_heart_health_100" />
+
+                <item
+                    android:id="@+id/catScience"
+                    android:title="@string/science"
+                    android:icon="@drawable/icons8_physics_100" />
+
+                <item
+                    android:id="@+id/catSports"
+                    android:title="@string/sports"
+                    android:icon="@drawable/icons8_trophy_100" />
+
+                <item
+                    android:id="@+id/catTechnology"
+                    android:title="@string/technology"
+                    android:icon="@drawable/ic_business" />
+
+            </group>
+        </menu>
+
+    </item>
+</menu>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <integer-array name="tabIcons">
+
+        <item>@drawable/icons8_news_100</item>
+        <item>@drawable/icons8_bookmark_100</item>
+    </integer-array>
+</resources>
