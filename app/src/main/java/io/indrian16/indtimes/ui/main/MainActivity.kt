@@ -119,10 +119,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     private fun setupToolbar() {
 
         setSupportActionBar(mainToolbar)
+        supportActionBar.apply {
 
-        if (supportActionBar != null) supportActionBar?.let {
-
-            it.title = getString(R.string.app_name)
+            title = getString(R.string.app_name)
         }
     }
 
@@ -140,16 +139,29 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        when (item?.itemId) {
+        return when (item?.itemId) {
 
-            R.id.showSearch -> showToast("Search coming soon")
+            R.id.showSearch -> {
 
-            R.id.showMenu -> mainDrawer.openDrawer(Gravity.END)
+                showToast("Search coming soon")
+                true
+            }
 
-            R.id.showSetting -> showToast("Setting coming soon")
+            R.id.showMenu -> {
+
+                mainDrawer.openDrawer(Gravity.END)
+                true
+            }
+
+            R.id.showSetting -> {
+
+                showToast("Setting coming soon")
+                true
+            }
+
+            else -> onOptionsItemSelected(item)
         }
 
-        return true
     }
 
     private fun changeFragmentWithBot(fragment: Fragment) {

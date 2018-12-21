@@ -22,6 +22,8 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
         newsState.value = NewsLoadingState(emptyList())
     }
 
+    private fun obtainCurrentData() = newsState.value?.dataList ?: emptyList()
+
     fun updateNews(category: String) {
 
         getNewsList(category)
@@ -37,8 +39,6 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
         newsState.value = NewsLoadingState(emptyList())
         getNewsList(category)
     }
-
-    private fun obtainCurrentData() = newsState.value?.dataList ?: emptyList()
 
     private fun getNewsList(category: String) {
 

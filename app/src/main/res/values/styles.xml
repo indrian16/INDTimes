@@ -8,6 +8,13 @@
         <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
+    <style name="AppTheme.Normal" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/primaryColor</item>
+        <item name="colorPrimaryDark">@color/primaryDarkColor</item>
+        <item name="colorAccent">@color/secondaryColor</item>
+    </style>
+
     <style name="AppTheme.ToolbarTitle" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
 
         <item name="android:fontFamily">@font/open_sans_bold</item>

@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider
 import java.lang.IllegalArgumentException
 
-class ViewModelProviderFactory(private val viewModels: ViewModel) : ViewModelProvider.Factory {
+class ViewModelFactory(private val viewModels: ViewModel) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
 

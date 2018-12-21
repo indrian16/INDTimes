@@ -5,6 +5,9 @@ object AppConstant {
     const val PageNews = "News"
     const val PageBookmark = "Bookmark"
 
+    const val SHARE_ARTICLE = "Share Article"
+    const val NO_CONTENT = "This article no content"
+
     const val DB_NAME = "indtimes.db"
     const val DB_VER = 1
     const val TABLE_ARTICLE = "articles"

@@ -16,11 +16,9 @@ import dagger.android.support.AndroidSupportInjection
 
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.data.model.Article
+import io.indrian16.indtimes.ui.detail.DetailArticleActivity
 import io.indrian16.indtimes.ui.news.rv.RvNewsArticle
-import io.indrian16.indtimes.util.Category
-import io.indrian16.indtimes.util.showToast
-import io.indrian16.indtimes.util.toGone
-import io.indrian16.indtimes.util.toVisisble
+import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.fragment_news.*
 import javax.inject.Inject
 
@@ -133,16 +131,15 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
     override fun onClickNews(article: Article) {
 
-        showToast("Detail is Coming")
+        val inDetail = Intent(context, DetailArticleActivity::class.java)
+        inDetail.putExtra(DetailArticleActivity.EXTRA_ARTICLE, article)
+
+        startActivity(inDetail)
     }
 
     override fun onClickShare(url: String) {
 
-        val inShare = Intent(Intent.ACTION_SEND)
-        inShare.type = "text/plain"
-        inShare.putExtra(Intent.EXTRA_TEXT, url)
-
-        startActivity(Intent.createChooser(inShare, "Share Article"))
+        shareArticle(url)
     }
 
     override fun onClickBookmark(article: Article) {

@@ -3,6 +3,7 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="read_article_title">Read Article</string>
     <string name="news">News</string>
     <string name="bookmark">Bookmark</string>
     <string name="menu">Menu</string>
@@ -19,4 +20,7 @@
     <string name="science">Science</string>
     <string name="sports">Sports</string>
     <string name="technology">Technology</string>
+    <string name="content">Content:</string>
+    <string name="read_full_with_tab_chrome">Read Full With Chrome Tab</string>
+    <string name="share">Share</string>
 </resources>
