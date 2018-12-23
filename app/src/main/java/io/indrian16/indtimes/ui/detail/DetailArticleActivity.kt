@@ -1,20 +1,27 @@
 package io.indrian16.indtimes.ui.detail
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.customtabs.CustomTabsIntent
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
 import io.indrian16.indtimes.R
+import io.indrian16.indtimes.customtab.CustomTabActivityHelper
 import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.util.AppConstant
 import io.indrian16.indtimes.util.shareArticle
 import io.indrian16.indtimes.util.showToast
+import io.indrian16.indtimes.util.toUri
 import kotlinx.android.synthetic.main.activity_detail_article.*
 
-class DetailArticleActivity : AppCompatActivity(), View.OnClickListener {
+class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomTabActivityHelper.CustomTabFallback {
 
     companion object {
 
@@ -70,6 +77,18 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    @SuppressLint("PrivateResource")
+    private fun openChromeTab(url: String) {
+
+        val uri = url.toUri()
+        val intent = CustomTabsIntent.Builder()
+            .setShowTitle(true)
+            .setStartAnimations(this, R.anim.abc_slide_in_bottom, R.anim.abc_slide_in_top)
+            .setExitAnimations(this, R.anim.abc_slide_out_top, R.anim.abc_slide_out_bottom)
+            .build()
+        CustomTabActivityHelper.openCustomTab(this, intent, uri, this)
+    }
+
     override fun onSupportNavigateUp(): Boolean {
 
         finish()
@@ -79,7 +98,7 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
         menuInflater.inflate(R.menu.detail_menu, menu)
-        return true
+        return super.onCreateOptionsMenu(menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -100,7 +119,13 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener {
 
         when (v?.id) {
 
-            R.id.btnOpenChrome -> showToast("Open Crome is Coming!")
+            R.id.btnOpenChrome -> openChromeTab(shareUrl)
         }
+    }
+
+    override fun openUri(activity: Activity?, uri: Uri?) {
+
+        val intent = Intent(Intent.ACTION_VIEW, uri)
+        startActivity(intent)
     }
 }

@@ -57,7 +57,7 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
             is NewsDefaultState -> {
 
                 swipeRv.isRefreshing = false
-                rvNews.toVisisble()
+                rvNews.toVisible()
                 newsAdapter.add(state.dataList)
             }
 
@@ -131,10 +131,10 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
     override fun onClickNews(article: Article) {
 
-        val inDetail = Intent(context, DetailArticleActivity::class.java)
-        inDetail.putExtra(DetailArticleActivity.EXTRA_ARTICLE, article)
+        val intent = Intent(context, DetailArticleActivity::class.java)
+        intent.putExtra(DetailArticleActivity.EXTRA_ARTICLE, article)
 
-        startActivity(inDetail)
+        startActivity(intent)
     }
 
     override fun onClickShare(url: String) {

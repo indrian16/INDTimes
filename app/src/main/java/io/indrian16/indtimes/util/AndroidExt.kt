@@ -3,6 +3,7 @@ package io.indrian16.indtimes.util
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.net.Uri
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -32,7 +33,7 @@ fun Fragment.shareArticle(url: String) {
     startActivity(Intent.createChooser(inShare, AppConstant.SHARE_ARTICLE))
 }
 
-fun View.toVisisble() {
+fun View.toVisible() {
 
     this.visibility = View.VISIBLE
 }
@@ -49,6 +50,8 @@ fun Context.isConnAvailable(): Boolean {
 
     return activeInfo != null && activeInfo.isConnected
 }
+
+fun String.toUri() = Uri.parse(this)
 
 operator fun CompositeDisposable.plusAssign(disposable: Disposable) {
 

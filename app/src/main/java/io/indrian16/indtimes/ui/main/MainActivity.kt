@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
+import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -62,7 +63,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
             R.id.catEntertainment -> {
 
-                currentCategory = Category.ENTERTAIMENT
+                currentCategory = Category.ENTERTAINMENT
                 changeFragmentWithDrawer()
                 return@OnNavigationItemSelectedListener true
             }
@@ -118,14 +119,20 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     private fun setupToolbar() {
 
-        setSupportActionBar(mainToolbar)
-        supportActionBar.apply {
+        setSupportActionBar(mainToolbar).apply {
 
             title = getString(R.string.app_name)
         }
     }
 
     private fun initView() {
+
+        val toggle = ActionBarDrawerToggle(
+                this, mainDrawer, mainToolbar,
+                R.string.navigation_drawer_open,
+                R.string.navigation_drawer_close)
+        mainDrawer.addDrawerListener(toggle)
+        toggle.syncState()
 
         mainBotNavView.setOnNavigationItemSelectedListener(botListener)
         mainNavView.setNavigationItemSelectedListener(navListener)
@@ -141,15 +148,15 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         return when (item?.itemId) {
 
-            R.id.showSearch -> {
+            android.R.id.home -> {
 
-                showToast("Search coming soon")
+                mainDrawer.openDrawer(Gravity.START)
                 true
             }
 
-            R.id.showMenu -> {
+            R.id.showSearch -> {
 
-                mainDrawer.openDrawer(Gravity.END)
+                showToast("Search coming soon")
                 true
             }
 
@@ -178,5 +185,16 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 .commit()
         mainDrawer.closeDrawers()
         mainBotNavView.selectedItemId = R.id.navNews
+    }
+
+    override fun onBackPressed() {
+
+        if (mainDrawer.isDrawerOpen(Gravity.START)) {
+
+            mainDrawer.closeDrawers()
+        } else {
+
+            super.onBackPressed()
+        }
     }
 }
