@@ -15,10 +15,7 @@ import com.bumptech.glide.Glide
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.customtab.CustomTabActivityHelper
 import io.indrian16.indtimes.data.model.Article
-import io.indrian16.indtimes.util.AppConstant
-import io.indrian16.indtimes.util.shareArticle
-import io.indrian16.indtimes.util.showToast
-import io.indrian16.indtimes.util.toUri
+import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.activity_detail_article.*
 
 class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomTabActivityHelper.CustomTabFallback {
@@ -83,8 +80,6 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
         val uri = url.toUri()
         val intent = CustomTabsIntent.Builder()
             .setShowTitle(true)
-            .setStartAnimations(this, R.anim.abc_slide_in_bottom, R.anim.abc_slide_in_top)
-            .setExitAnimations(this, R.anim.abc_slide_out_top, R.anim.abc_slide_out_bottom)
             .build()
         CustomTabActivityHelper.openCustomTab(this, intent, uri, this)
     }
@@ -109,7 +104,11 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
 
             R.id.detailBookmark -> { showToast("Coming!"); true }
 
-            R.id.detailShare -> { shareArticle(shareUrl); true }
+            R.id.detailShare -> {
+
+                CommnonUtil.shareArticle(this, shareUrl)
+                true
+            }
 
             else -> super.onOptionsItemSelected(item)
         }

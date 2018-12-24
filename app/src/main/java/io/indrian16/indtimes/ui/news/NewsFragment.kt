@@ -139,7 +139,7 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
     override fun onClickShare(url: String) {
 
-        shareArticle(url)
+        CommnonUtil.shareArticle(activity!!, url)
     }
 
     override fun onClickBookmark(article: Article) {
