@@ -1,5 +1,6 @@
 package io.indrian16.indtimes.ui.main
 
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
@@ -17,6 +18,7 @@ import io.indrian16.indtimes.R
 import io.indrian16.indtimes.ui.bookmark.BookmarkFragment
 import io.indrian16.indtimes.util.Category
 import io.indrian16.indtimes.ui.news.NewsFragment
+import io.indrian16.indtimes.ui.search.SearchActivity
 import io.indrian16.indtimes.util.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
@@ -156,7 +158,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
             R.id.showSearch -> {
 
-                showToast("Search coming soon")
+                startActivity(Intent(this, SearchActivity::class.java))
                 true
             }
 
