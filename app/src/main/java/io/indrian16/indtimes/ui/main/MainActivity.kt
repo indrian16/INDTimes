@@ -114,7 +114,11 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        changeFragmentWithBot(NewsFragment.newInstance(currentCategory))
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.mainContainer, NewsFragment.newInstance(currentCategory))
+                .commit()
+        }
         setupToolbar()
         initView()
     }
@@ -192,10 +196,8 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun onBackPressed() {
 
         if (mainDrawer.isDrawerOpen(Gravity.START)) {
-
             mainDrawer.closeDrawers()
         } else {
-
             super.onBackPressed()
         }
     }

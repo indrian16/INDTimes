@@ -1,7 +1,9 @@
 package io.indrian16.indtimes.util
 
+import android.arch.lifecycle.ViewModel
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
-import android.content.Intent
 import android.net.ConnectivityManager
 import android.net.Uri
 import android.support.v4.app.Fragment
@@ -12,6 +14,11 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
 
 fun AppCompatActivity.showToast(message: String) = Toast.makeText(baseContext, message, Toast.LENGTH_LONG).show()
+
+fun <T: ViewModel> AppCompatActivity.obtainViewModel(factory: ViewModelProvider.Factory, viewModelClass: Class<T>): T {
+
+    return ViewModelProviders.of(this, factory).get(viewModelClass)
+}
 
 fun Fragment.showToast(message: String) = Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 

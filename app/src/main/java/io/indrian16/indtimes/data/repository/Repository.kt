@@ -35,9 +35,20 @@ class Repository @Inject constructor(private val context: Context,
         }
     }
 
+    fun getEverything(query: String): Single<List<Article>> {
+
+        return newsService.getEverything(query, AppConstant.COUNTRY_ID, AppConstant.API_KEY)
+            .toObservable()
+            .flatMapIterable { it.articles }
+            .map { articleModelToArticle(it) }
+            .doOnNext { saveInDB(it) }
+            .toList()
+    }
+
     private fun saveInDB(article: Article?) {
 
         if (article != null) articleDao.insertArticle(article)
+        else d {"article null"}
     }
 
     private fun articleModelToArticle(model: ArticleModel): Article {

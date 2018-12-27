@@ -6,9 +6,7 @@ import dagger.Component
 import dagger.android.AndroidInjectionModule
 import io.indrian16.indtimes.AppINDTimes
 import io.indrian16.indtimes.di.builder.ActivityBuilder
-import io.indrian16.indtimes.di.module.AppModule
-import io.indrian16.indtimes.di.module.NetworkModule
-import io.indrian16.indtimes.di.module.RepositoryModule
+import io.indrian16.indtimes.di.module.*
 import javax.inject.Singleton
 
 @Singleton
@@ -17,6 +15,7 @@ import javax.inject.Singleton
         AppModule::class,
         NetworkModule::class,
         RepositoryModule::class,
+        ViewModelModule::class,
         ActivityBuilder::class
 ])
 interface AppComponent {
