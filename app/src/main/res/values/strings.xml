@@ -26,4 +26,8 @@
     <string name="content">Content:</string>
     <string name="read_full_with_tab_chrome">Read Full With Chrome Tab</string>
     <string name="share">Share</string>
+    <string name="todo">TODO</string>
+    <string name="tri_dot">⋮</string>
+    <string name="author_label">Author:</string>
+    <string name="author_anonymous">Anonymous</string>
 </resources>

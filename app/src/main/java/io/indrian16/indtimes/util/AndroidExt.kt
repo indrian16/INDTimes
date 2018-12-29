@@ -20,6 +20,11 @@ fun <T: ViewModel> AppCompatActivity.obtainViewModel(factory: ViewModelProvider.
     return ViewModelProviders.of(this, factory).get(viewModelClass)
 }
 
+fun <T: ViewModel> Fragment.obtainViewModel(factory: ViewModelProvider.Factory, viewModelClass: Class<T>): T {
+
+    return ViewModelProviders.of(this, factory).get(viewModelClass)
+}
+
 fun Fragment.showToast(message: String) = Toast.makeText(context, message, Toast.LENGTH_LONG).show()
 
 fun View.toVisible() {

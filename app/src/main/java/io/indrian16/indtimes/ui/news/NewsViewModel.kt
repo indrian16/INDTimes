@@ -13,16 +13,16 @@ import javax.inject.Inject
 
 class NewsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    val newsState = MutableLiveData<NewsState>()
+    val newsStateLiveData = MutableLiveData<NewsState>()
 
     private val compositeDisposable = CompositeDisposable()
 
     init {
 
-        newsState.value = NewsLoadingState(emptyList())
+        newsStateLiveData.value = NewsLoadingState(emptyList())
     }
 
-    private fun obtainCurrentData() = newsState.value?.dataList ?: emptyList()
+    private fun obtainCurrentData() = newsStateLiveData.value?.dataList ?: emptyList()
 
     fun updateNews(category: String) {
 
@@ -31,12 +31,12 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
     fun restoreNews() {
 
-        newsState.value = NewsDefaultState(obtainCurrentData())
+        newsStateLiveData.value = NewsDefaultState(obtainCurrentData())
     }
 
     fun refreshNews(category: String) {
 
-        newsState.value = NewsLoadingState(emptyList())
+        newsStateLiveData.value = NewsLoadingState(emptyList())
         getNewsList(category)
     }
 
@@ -54,13 +54,13 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
         val currentData = obtainCurrentData().toMutableList()
         currentData.addAll(dataList)
 
-        newsState.value = NewsDefaultState(currentData)
+        newsStateLiveData.value = NewsDefaultState(currentData)
     }
 
     private fun onError(throwable: Throwable) {
 
         d { "OnError: ${throwable.message}" }
-        newsState.value = NewsErrorState("Error ${throwable.message}", obtainCurrentData())
+        newsStateLiveData.value = NewsErrorState("Error ${throwable.message}", obtainCurrentData())
     }
 
     override fun onCleared() {

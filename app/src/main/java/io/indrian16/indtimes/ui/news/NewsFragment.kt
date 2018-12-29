@@ -2,7 +2,6 @@ package io.indrian16.indtimes.ui.news
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
-import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -17,7 +16,7 @@ import dagger.android.support.AndroidSupportInjection
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.ui.detail.DetailArticleActivity
-import io.indrian16.indtimes.ui.news.rv.RvNewsArticle
+import io.indrian16.indtimes.ui.news.adapter.RvNewsArticle
 import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.fragment_news.*
 import javax.inject.Inject
@@ -38,9 +37,9 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
     }
 
     @Inject
-    lateinit var newsViewModelFactory: ViewModelProvider.Factory
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    private lateinit var newsViewModel: NewsViewModel
+    private lateinit var viewModel: NewsViewModel
     private val newsAdapter = RvNewsArticle(this)
     private var currentCategory = Category.ALL
 
@@ -81,7 +80,6 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        newsViewModel = ViewModelProviders.of(this, newsViewModelFactory).get(NewsViewModel::class.java)
 
         initView()
         updateCategory()
@@ -90,11 +88,13 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        observerViewModel()
-        savedInstanceState?.let {
+        viewModel = obtainViewModel().apply {
 
-            newsViewModel.restoreNews()
-        } ?: newsViewModel.updateNews(currentCategory)
+            newsStateLiveData.observe(this@NewsFragment, newsStateObserver)
+        }
+        savedInstanceState?.let {
+            viewModel.restoreNews()
+        } ?: viewModel.updateNews(currentCategory)
     }
 
     private fun initView() {
@@ -107,11 +107,6 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
         }
     }
 
-    private fun observerViewModel() {
-
-        newsViewModel.newsState.observe(this, newsStateObserver)
-    }
-
     private fun updateCategory() {
 
         val category = arguments?.getString(CATEGORY_KEY) ?: Category.ALL
@@ -120,13 +115,13 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
     override fun onDestroy() {
         super.onDestroy()
-        newsViewModel.newsState.removeObserver(newsStateObserver)
+        viewModel.newsStateLiveData.removeObserver(newsStateObserver)
     }
 
     override fun onRefresh() {
 
         newsAdapter.clear()
-        newsViewModel.refreshNews(currentCategory)
+        viewModel.refreshNews(currentCategory)
     }
 
     override fun onClickNews(article: Article) {
@@ -146,4 +141,6 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
         showToast("Bookmark is Coming")
     }
+
+    private fun obtainViewModel() = obtainViewModel(viewModelFactory, NewsViewModel::class.java)
 }
