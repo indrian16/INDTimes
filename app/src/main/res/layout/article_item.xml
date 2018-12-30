@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="270dp"
+    android:layout_height="250dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginTop="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    app:cardElevation="6dp"
-    app:cardCornerRadius="4dp">
+    android:layout_marginEnd="4dp"
+    android:layout_marginStart="4dp"
+    app:cardCornerRadius="4dp"
+    app:elevation="4dp">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -18,71 +17,44 @@
         <ImageView
             android:id="@+id/imgArticle"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:contentDescription="@string/todo"
+            android:layout_height="170dp"
+            android:contentDescription="@string/article_image"
             android:scaleType="centerCrop"
             android:src="@drawable/sample_img"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <RelativeLayout
-            android:id="@+id/head_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@+id/imgArticle">
-
-            <TextView
-                android:id="@+id/tvAuthor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/open_sans_semi_bold"
-                android:text="@string/author_label"
-                android:textSize="14sp"
-                android:layout_marginStart="8dp"
-                android:layout_marginLeft="8dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_centerInParent="true"/>
-
-            <TextView
-                android:id="@+id/tvOptionMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginRight="8dp"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:clickable="true"
-                android:focusable="true"
-                android:text="@string/tri_dot"
-                android:textColor="#666666"
-                android:textSize="21sp"
-                android:textAppearance="?android:attr/textAppearanceLarge"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-                tools:ignore="RelativeOverlap" />
-
-        </RelativeLayout>
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tvTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="0dp"
-            android:layout_marginBottom="4dp"
-            android:fontFamily="@font/open_sans_bold"
-            android:maxLines="3"
+            android:layout_marginTop="2dp"
             android:paddingStart="8dp"
             android:paddingEnd="8dp"
+            android:fontFamily="@font/open_sans_bold"
+            android:maxLines="3"
             android:text="PUBG Mobile Sudah Diupdate tapi Map Vikendi Belum Tersedia, PUBG Berikan Penjelasan - Pos Belitung"
-            android:textColor="@color/secondaryTextColor"
+            android:textColor="@color/primaryTextColor"
             android:textSize="16sp"
-            android:visibility="visible"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/head_layout" />
+            app:layout_constraintTop_toBottomOf="@+id/imgArticle"/>
 
+
+        <TextView
+            android:id="@+id/tvOptionMenu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:text="@string/tri_dot"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large"
+            android:textColor="#666666"
+            android:textSize="18sp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:clickable="true"
+            android:focusable="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/imgArticle" />
     </android.support.constraint.ConstraintLayout>
 
 </android.support.v7.widget.CardView>

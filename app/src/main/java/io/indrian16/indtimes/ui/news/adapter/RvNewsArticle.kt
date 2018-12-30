@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.article_item.view.*
 
 class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : RecyclerView.Adapter<RvNewsArticle.NewsHolder>() {
 
-    private var newsArticleList: List<Article> = arrayListOf()
+    private var articleList: List<Article> = arrayListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NewsHolder {
 
@@ -21,23 +21,23 @@ class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : Recycl
         return NewsHolder(view)
     }
 
-    override fun getItemCount(): Int = newsArticleList.size
+    override fun getItemCount(): Int = articleList.size
 
-    override fun onBindViewHolder(holder: NewsHolder, position: Int) = holder.bind(newsArticleList[position])
+    override fun onBindViewHolder(holder: NewsHolder, position: Int) = holder.bind(articleList[position])
 
     fun add(dataList: List<Article>) {
 
-        newsArticleList = dataList
+        articleList = dataList
         notifyDataSetChanged()
     }
 
     fun clear() {
 
-        newsArticleList = emptyList()
+        articleList = emptyList()
         notifyDataSetChanged()
     }
 
-    inner class NewsHolder(private val view: View) : RecyclerView.ViewHolder(view) {
+    inner class NewsHolder(view: View) : RecyclerView.ViewHolder(view) {
 
         fun bind(article: Article) {
 
@@ -64,7 +64,6 @@ class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : Recycl
             itemView.apply {
 
                 Glide.with(this).load(article.urlToImage).into(imgArticle)
-                tvAuthor.text = checkAuthorNull(article.author)
                 tvTitle.text = article.title
                 tvOptionMenu.setOnClickListener {
 
@@ -73,24 +72,7 @@ class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : Recycl
                     popupMenu.setOnMenuItemClickListener(menuPopupMenuListener)
                     popupMenu.show()
                 }
-
             }.setOnClickListener { listener.onClickNews(article) }
-        }
-
-        private fun checkAuthorNull(author: String?): String {
-
-            val label = "${view.resources.getString(R.string.author_label)} "
-            val anonymous = view.resources.getString(R.string.author_anonymous)
-            return author.let {
-
-                if (!it.isNullOrEmpty()) {
-
-                    label + author
-                } else {
-
-                    label + anonymous
-                }
-            }
         }
     }
 

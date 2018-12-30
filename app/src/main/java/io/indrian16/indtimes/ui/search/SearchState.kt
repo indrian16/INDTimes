@@ -8,6 +8,7 @@ sealed class SearchState {
 }
 
 data class DefaultSearchState(override val dataList: List<Article>): SearchState()
+data class NoInputSearchState(override val dataList: List<Article>): SearchState()
 data class LoadingSearchState(override val dataList: List<Article>): SearchState()
 data class ErrorSearchState(override val dataList: List<Article>, val errorMessage: String): SearchState()
 data class NotFoundSearchState(override val dataList: List<Article>): SearchState()

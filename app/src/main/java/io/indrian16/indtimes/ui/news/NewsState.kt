@@ -6,7 +6,6 @@ sealed class NewsState {
 
     abstract val dataList: List<Article>
 }
-
 data class NewsDefaultState(override val dataList: List<Article>): NewsState()
 data class NewsLoadingState(override val dataList: List<Article>): NewsState()
 data class NewsErrorState(val errorMessage: String, override val dataList: List<Article>): NewsState()

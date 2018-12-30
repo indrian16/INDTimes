@@ -2,27 +2,32 @@ package io.indrian16.indtimes.ui.search
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
+import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.support.v4.view.MenuItemCompat
+import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
-import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.github.ajalt.timberkt.d
 import dagger.android.AndroidInjection
 import io.indrian16.indtimes.R
-import io.indrian16.indtimes.util.obtainViewModel
+import io.indrian16.indtimes.data.model.Article
+import io.indrian16.indtimes.ui.detail.DetailArticleActivity
+import io.indrian16.indtimes.ui.search.adapter.RvSearchItem
+import io.indrian16.indtimes.util.*
+import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
-class SearchActivity : AppCompatActivity() {
+class SearchActivity : AppCompatActivity(), RvSearchItem.OnSearchClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: SearchViewModel
+    private val mAdapter = RvSearchItem(this)
 
     private val searchStateObserver = Observer<SearchState> { state ->
 
@@ -31,22 +36,40 @@ class SearchActivity : AppCompatActivity() {
             is DefaultSearchState -> {
 
                 d {"Default State"}
-                d{"Dapat: ${state.dataList[0].title}"}
+                rvSearch.toVisible()
+                progressBar.toGone()
+                mAdapter.add(state.dataList)
+            }
+
+
+            is NoInputSearchState -> {
+
+                d {"No Input State"}
+                rvSearch.toGone()
+                progressBar.toGone()
             }
 
             is LoadingSearchState -> {
 
                 d {"Loading State"}
+                rvSearch.toGone()
+                progressBar.toVisible()
             }
 
             is NotFoundSearchState -> {
 
-                d {"Not Found State"}
+                d {"NotFoundSearch State"}
+                rvSearch.toGone()
+                progressBar.toGone()
+                showToast("Not Found Item!")
             }
 
             is ErrorSearchState -> {
 
-                d {"Error State: ${state.errorMessage}"}
+                d {"Error State"}
+                rvSearch.toGone()
+                progressBar.toGone()
+                showToast(state.errorMessage)
             }
         }
     }
@@ -56,9 +79,20 @@ class SearchActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        initView()
+
         viewModel = obtainViewModel().apply {
 
             stateLiveData.observe(this@SearchActivity, searchStateObserver)
+        }
+    }
+
+    private fun initView() {
+
+        rvSearch.apply {
+
+            layoutManager = LinearLayoutManager(baseContext)
+            adapter = mAdapter
         }
     }
 
@@ -93,13 +127,7 @@ class SearchActivity : AppCompatActivity() {
 
             override fun onQueryTextChange(newText: String?): Boolean {
 
-                newText?.let {
-
-                    if (!TextUtils.isEmpty(it)) {
-
-                        Handler().postDelayed({ viewModel.getNewsListOnChange(newText) }, 400)
-                    }
-                }
+                viewModel.getSearchListOnChange(newText!!)
                 return false
             }
         })
@@ -107,7 +135,8 @@ class SearchActivity : AppCompatActivity() {
         closeButton.setOnClickListener {
 
             searchView.setQuery("", false)
-            viewModel.getNewsListOnChange("")
+            viewModel.getSearchListOnChange("")
+            mAdapter.clear()
         }
     }
 
@@ -119,5 +148,13 @@ class SearchActivity : AppCompatActivity() {
         return true
     }
 
-    private fun obtainViewModel(): SearchViewModel = obtainViewModel(viewModelFactory, SearchViewModel::class.java)
+    override fun onClickArticle(article: Article) {
+
+        val intent = Intent(baseContext, DetailArticleActivity::class.java)
+        intent.putExtra(DetailArticleActivity.EXTRA_ARTICLE, article)
+
+        startActivity(intent)
+    }
+
+    private fun obtainViewModel() = obtainViewModel(viewModelFactory, SearchViewModel::class.java)
 }

@@ -8,6 +8,7 @@ import io.indrian16.indtimes.util.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
@@ -15,42 +16,38 @@ class SearchViewModel @Inject constructor(private val repository: Repository) : 
     val stateLiveData = MutableLiveData<SearchState>()
     private val compositeDisposable = CompositeDisposable()
 
-    private fun obtainCurrentData() = stateLiveData.value?.dataList ?: emptyList()
-
     init {
 
-        stateLiveData.value = NotFoundSearchState(emptyList())
+        stateLiveData.value = NoInputSearchState(emptyList())
     }
 
-    fun getNewsListOnChange(query: String) {
+    fun getSearchListOnChange(query: String) {
 
         if (query == "") {
 
-            stateLiveData.value = NotFoundSearchState(emptyList())
-
+            stateLiveData.value = NoInputSearchState(emptyList())
         } else {
 
             compositeDisposable += repository.getEverything(query)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe { onLoading() }
-                .subscribe(this::onReceivedList, this::onError)
+                    .toObservable()
+                    .debounce(400, TimeUnit.MILLISECONDS)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .doOnSubscribe { onLoading() }
+                    .subscribe(this::onReceivedList, this::onError)
         }
     }
 
     private fun onLoading() {
 
-        stateLiveData.value = LoadingSearchState(obtainCurrentData())
+        stateLiveData.value = LoadingSearchState(emptyList())
     }
 
     private fun onReceivedList(dataList: List<Article>) {
 
         if (dataList.isNotEmpty()) {
 
-            val currentData = dataList.toMutableList()
-            currentData.addAll(dataList)
-
-            stateLiveData.value = DefaultSearchState(currentData)
+            stateLiveData.value = DefaultSearchState(dataList)
 
         } else {
 
