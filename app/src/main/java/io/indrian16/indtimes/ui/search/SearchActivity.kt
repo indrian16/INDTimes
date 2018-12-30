@@ -36,6 +36,8 @@ class SearchActivity : AppCompatActivity(), RvSearchItem.OnSearchClickListener {
             is DefaultSearchState -> {
 
                 d {"Default State"}
+                searchLayout.toVisible()
+                searchLayoutError.toGone()
                 rvSearch.toVisible()
                 progressBar.toGone()
                 mAdapter.add(state.dataList)
@@ -45,6 +47,8 @@ class SearchActivity : AppCompatActivity(), RvSearchItem.OnSearchClickListener {
             is NoInputSearchState -> {
 
                 d {"No Input State"}
+                searchLayout.toVisible()
+                searchLayoutError.toGone()
                 rvSearch.toGone()
                 progressBar.toGone()
             }
@@ -52,6 +56,8 @@ class SearchActivity : AppCompatActivity(), RvSearchItem.OnSearchClickListener {
             is LoadingSearchState -> {
 
                 d {"Loading State"}
+                searchLayout.toVisible()
+                searchLayoutError.toGone()
                 rvSearch.toGone()
                 progressBar.toVisible()
             }
@@ -59,6 +65,8 @@ class SearchActivity : AppCompatActivity(), RvSearchItem.OnSearchClickListener {
             is NotFoundSearchState -> {
 
                 d {"NotFoundSearch State"}
+                searchLayout.toVisible()
+                searchLayoutError.toGone()
                 rvSearch.toGone()
                 progressBar.toGone()
                 showToast("Not Found Item!")
@@ -67,9 +75,11 @@ class SearchActivity : AppCompatActivity(), RvSearchItem.OnSearchClickListener {
             is ErrorSearchState -> {
 
                 d {"Error State"}
+                searchLayout.toGone()
+                searchLayoutError.toVisible()
                 rvSearch.toGone()
                 progressBar.toGone()
-                showToast(state.errorMessage)
+                d { state.errorMessage }
             }
         }
     }

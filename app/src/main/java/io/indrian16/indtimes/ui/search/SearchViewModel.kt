@@ -57,7 +57,7 @@ class SearchViewModel @Inject constructor(private val repository: Repository) : 
 
     private fun onError(throwable: Throwable) {
 
-        stateLiveData.value = ErrorSearchState(emptyList(), "${throwable.message}")
+        stateLiveData.value = ErrorSearchState(emptyList(), throwable.message.toString())
     }
 
     override fun onCleared() {

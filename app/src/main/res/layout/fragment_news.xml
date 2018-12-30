@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.news.NewsFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipeRv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="visible">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvNews"
@@ -16,5 +18,48 @@
             android:layout_height="match_parent"/>
 
     </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:id="@+id/errorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/imgError"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:contentDescription="@string/error_icon"
+            android:src="@drawable/icons8_error_96" />
+
+        <TextView
+            android:id="@+id/tvErrorMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgError"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/oops_error"
+            android:fontFamily="@font/open_sans_semi_bold"
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/btnRefresh"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tvErrorMessage"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="12dp"
+            android:text="@string/refresh"
+            android:textColor="@color/whiteColor"
+            android:textAllCaps="false"
+            android:backgroundTint="@color/secondaryColor"
+            android:theme="@style/Widget.AppCompat.Button.Colored"
+            tools:ignore="UnusedAttribute" />
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

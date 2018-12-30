@@ -11,6 +11,7 @@ import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.github.ajalt.timberkt.d
 import dagger.android.support.AndroidSupportInjection
 
 import io.indrian16.indtimes.R
@@ -49,12 +50,18 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
             is NewsLoadingState -> {
 
+                d { "Loading State" }
+                swipeRv.toVisible()
+                errorLayout.toGone()
                 swipeRv.isRefreshing = true
                 rvNews.toGone()
             }
 
             is NewsDefaultState -> {
 
+                d { "Default State" }
+                swipeRv.toVisible()
+                errorLayout.toGone()
                 swipeRv.isRefreshing = false
                 rvNews.toVisible()
                 newsAdapter.add(state.dataList)
@@ -62,7 +69,10 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
             is NewsErrorState -> {
 
-                showToast(" Error ${state.errorMessage}")
+                d { "Error State" }
+                d { state.errorMessage }
+                swipeRv.toGone()
+                errorLayout.toVisible()
             }
         }
     }
@@ -100,6 +110,7 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
     private fun initView() {
 
         swipeRv.setOnRefreshListener(this)
+        btnRefresh.setOnClickListener { onRefresh() }
         rvNews.apply {
 
             layoutManager = LinearLayoutManager(context)

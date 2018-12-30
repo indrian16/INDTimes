@@ -9,6 +9,7 @@ import io.indrian16.indtimes.util.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class NewsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
@@ -43,9 +44,11 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
     private fun getNewsList(category: String) {
 
         compositeDisposable += repository.getTopHeadlines(category)
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::onReceivedList, this::onError)
+                .toObservable()
+                .debounce(400, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onReceivedList, this::onError)
     }
 
     private fun onReceivedList(dataList: List<Article>) {
@@ -59,8 +62,7 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
     private fun onError(throwable: Throwable) {
 
-        d { "OnError: ${throwable.message}" }
-        newsStateLiveData.value = NewsErrorState("Error ${throwable.message}", obtainCurrentData())
+        newsStateLiveData.value = NewsErrorState(throwable.message.toString(), obtainCurrentData())
     }
 
     override fun onCleared() {

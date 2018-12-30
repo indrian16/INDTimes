@@ -41,7 +41,6 @@ class Repository @Inject constructor(private val context: Context,
             .toObservable()
             .flatMapIterable { it.articles }
             .map { articleModelToArticle(it) }
-            .doOnNext { saveInDB(it) }
             .toList()
     }
 
