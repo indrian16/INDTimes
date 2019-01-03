@@ -28,7 +28,8 @@
     <RelativeLayout
         android:id="@+id/searchLayoutError"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/imgError"
@@ -48,6 +49,35 @@
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="@string/oops_error"
+            android:fontFamily="@font/open_sans_semi_bold"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/searchLayoutNoFound"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/imgNoFound"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="150dp"
+            android:contentDescription="@string/error_icon"
+            android:src="@drawable/icons8_error_96" />
+
+        <TextView
+            android:id="@+id/tvNoFoundMessage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/imgNoFound"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="@string/oops_no_data_try_type_again"
             android:fontFamily="@font/open_sans_semi_bold"
             android:textSize="16sp"/>
 

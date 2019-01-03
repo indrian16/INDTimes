@@ -21,21 +21,15 @@ class SearchViewModel @Inject constructor(private val repository: Repository) : 
         stateLiveData.value = NoInputSearchState(emptyList())
     }
 
-    fun getSearchListOnChange(query: String) {
+    fun getSearchListOnSubmit(query: String) {
 
-        if (query == "") {
-
-            stateLiveData.value = NoInputSearchState(emptyList())
-        } else {
-
-            compositeDisposable += repository.getEverything(query)
-                    .toObservable()
-                    .debounce(400, TimeUnit.MILLISECONDS)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .doOnSubscribe { onLoading() }
-                    .subscribe(this::onReceivedList, this::onError)
-        }
+        compositeDisposable += repository.getEverything(query)
+                .toObservable()
+                .debounce(400, TimeUnit.MILLISECONDS)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { onLoading() }
+                .subscribe(this::onReceivedList, this::onError)
     }
 
     private fun onLoading() {

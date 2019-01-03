@@ -53,6 +53,8 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
                 d { "Loading State" }
                 swipeRv.toVisible()
                 errorLayout.toGone()
+                noDataLayout.toGone()
+
                 swipeRv.isRefreshing = true
                 rvNews.toGone()
             }
@@ -62,9 +64,19 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
                 d { "Default State" }
                 swipeRv.toVisible()
                 errorLayout.toGone()
+                noDataLayout.toGone()
+
                 swipeRv.isRefreshing = false
                 rvNews.toVisible()
                 newsAdapter.add(state.dataList)
+            }
+
+            is NewsEmptyListState -> {
+
+                d {"No Data State"}
+                swipeRv.toGone()
+                errorLayout.toGone()
+                noDataLayout.toVisible()
             }
 
             is NewsErrorState -> {
@@ -73,6 +85,7 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
                 d { state.errorMessage }
                 swipeRv.toGone()
                 errorLayout.toVisible()
+                noDataLayout.toGone()
             }
         }
     }
@@ -111,6 +124,7 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
         swipeRv.setOnRefreshListener(this)
         btnRefresh.setOnClickListener { onRefresh() }
+        btnTryAgain.setOnClickListener { onRefresh() }
         rvNews.apply {
 
             layoutManager = LinearLayoutManager(context)

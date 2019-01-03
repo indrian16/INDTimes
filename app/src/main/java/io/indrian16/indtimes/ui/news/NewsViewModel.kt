@@ -53,11 +53,18 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
     private fun onReceivedList(dataList: List<Article>) {
 
-        d {"get data from repo ${dataList.size}"}
-        val currentData = obtainCurrentData().toMutableList()
-        currentData.addAll(dataList)
+        if (dataList.isNotEmpty()) {
 
-        newsStateLiveData.value = NewsDefaultState(currentData)
+            d {"get data from repo ${dataList.size}"}
+            val currentData = obtainCurrentData().toMutableList()
+            currentData.addAll(dataList)
+
+            newsStateLiveData.value = NewsDefaultState(currentData)
+
+        } else {
+
+            newsStateLiveData.value = NewsEmptyListState(emptyList())
+        }
     }
 
     private fun onError(throwable: Throwable) {
