@@ -13,6 +13,6 @@ interface ArticleDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertArticle(article: Article)
 
-    @Query("SELECT * FROM articles")
+    @Query("SELECT * FROM articles ORDER BY saveTime DESC")
     fun getTopHeadlines(): Single<List<Article>>
 }

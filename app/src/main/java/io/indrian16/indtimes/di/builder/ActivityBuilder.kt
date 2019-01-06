@@ -2,6 +2,7 @@ package io.indrian16.indtimes.di.builder
 
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
+import io.indrian16.indtimes.ui.detail.DetailArticleActivity
 import io.indrian16.indtimes.ui.main.MainActivity
 import io.indrian16.indtimes.ui.search.SearchActivity
 
@@ -13,4 +14,7 @@ abstract class ActivityBuilder {
 
     @ContributesAndroidInjector
     abstract fun contributeSearchActivity(): SearchActivity
+
+    @ContributesAndroidInjector
+    abstract fun contributeDetailActivity(): DetailArticleActivity
 }

@@ -2,6 +2,8 @@ package io.indrian16.indtimes.ui.detail
 
 import android.annotation.SuppressLint
 import android.app.Activity
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
@@ -12,11 +14,13 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
+import dagger.android.AndroidInjection
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.customtab.CustomTabActivityHelper
 import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.activity_detail_article.*
+import javax.inject.Inject
 
 class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomTabActivityHelper.CustomTabFallback {
 
@@ -25,14 +29,41 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
         const val EXTRA_ARTICLE = "ARTICLE"
     }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+    private lateinit var viewModel: DetailViewModel
+
     private lateinit var shareUrl: String
 
+    private val stateObserver = Observer<DetailState> { state ->
+
+        when (state) {
+
+            is DefaultDetailState -> {
+
+                setArticle(state.data)
+            }
+
+            is ErrorDetailState -> {
+
+                showToast(state.errorMessage)
+            }
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_article)
 
+        viewModel = obtainViewModel().apply {
+
+            stateLiveData.observe(this@DetailArticleActivity, stateObserver)
+        }
+        val article = intent.getParcelableExtra<Article>(EXTRA_ARTICLE)
+        viewModel.receivedArticle(article)
+
         setupToolbar()
-        setArticle()
         setListener()
     }
 
@@ -45,9 +76,7 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
     }
 
-    private fun setArticle() {
-
-        val article = intent?.getParcelableExtra<Article>(EXTRA_ARTICLE)
+    private fun setArticle(article: Article?) {
 
         article?.let {
 
@@ -102,7 +131,12 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
 
             android.R.id.home -> { finish(); true }
 
-            R.id.detailBookmark -> { showToast("Coming!"); true }
+            R.id.detailBookmark -> {
+
+                viewModel.saveBookmark()
+                showToast(resources.getString(R.string.bookmarked))
+                true
+            }
 
             R.id.detailShare -> {
 
@@ -127,4 +161,6 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
+
+    private fun obtainViewModel() = obtainViewModel(viewModelFactory, DetailViewModel::class.java)
 }

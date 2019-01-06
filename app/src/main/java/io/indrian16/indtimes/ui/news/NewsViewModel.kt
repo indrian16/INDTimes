@@ -30,11 +30,6 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
         getNewsList(category)
     }
 
-    fun restoreNews() {
-
-        newsStateLiveData.value = NewsDefaultState(obtainCurrentData())
-    }
-
     fun refreshNews(category: String) {
 
         newsStateLiveData.value = NewsLoadingState(emptyList())

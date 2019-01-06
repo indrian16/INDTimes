@@ -9,10 +9,11 @@ import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.util.AppConstant
 import io.indrian16.indtimes.util.isConnAvailable
 import io.reactivex.Single
+import java.util.*
 import javax.inject.Inject
 
 class Repository @Inject constructor(private val context: Context,
-                                     private val articleDao: ArticleDao,
+                                     private val localRepository: LocalRepository,
                                      private val newsService: NewsService) {
 
     fun getTopHeadlines(category: String): Single<List<Article>> {
@@ -25,13 +26,12 @@ class Repository @Inject constructor(private val context: Context,
                 .map { articleModelToArticle(it) }
                 .doOnNext {
 
-                    d { "Insert article --> ${it.title}" }
-                    saveInDB(it)
+                    localRepository.saveToLocal(it)
                 }
                 .toList()
         } else {
 
-            articleDao.getTopHeadlines()
+            localRepository.getTopHeadlineFromLocal()
         }
     }
 
@@ -44,15 +44,10 @@ class Repository @Inject constructor(private val context: Context,
             .toList()
     }
 
-    private fun saveInDB(article: Article?) {
-
-        if (article != null) articleDao.insertArticle(article)
-        else d {"article null"}
-    }
-
     private fun articleModelToArticle(model: ArticleModel): Article {
 
         return Article(
+            saveTime = Date(System.currentTimeMillis()),
             author = model.author,
             content = model.content,
             description = model.description,

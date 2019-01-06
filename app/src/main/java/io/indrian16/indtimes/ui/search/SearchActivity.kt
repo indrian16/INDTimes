@@ -131,6 +131,7 @@ class SearchActivity : AppCompatActivity(), RvNewsArticle.OnNewsArticleOnClickLi
 
             override fun onQueryTextSubmit(query: String?): Boolean {
 
+                rvSearch.smoothScrollToPosition(0)
                 viewModel.getSearchListOnSubmit(query!!)
                 return false
             }
@@ -144,7 +145,6 @@ class SearchActivity : AppCompatActivity(), RvNewsArticle.OnNewsArticleOnClickLi
         closeButton.setOnClickListener {
 
             searchView.setQuery("", false)
-            //mAdapter.clear()
         }
     }
 

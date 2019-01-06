@@ -115,9 +115,7 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
             newsStateLiveData.observe(this@NewsFragment, newsStateObserver)
         }
-        savedInstanceState?.let {
-            viewModel.restoreNews()
-        } ?: viewModel.updateNews(currentCategory)
+        viewModel.updateNews(currentCategory)
     }
 
     private fun initView() {

@@ -63,7 +63,7 @@ class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : Recycl
 
             itemView.apply {
 
-                Glide.with(this).load(article.urlToImage).into(imgArticle)
+                //Glide.with(this).load(article.urlToImage).into(imgArticle)
                 tvTitle.text = article.title
                 tvOptionMenu.setOnClickListener {
 

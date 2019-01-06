@@ -7,11 +7,11 @@ import io.indrian16.indtimes.util.AppConstant
 import kotlinx.android.parcel.Parcelize
 import java.util.*
 
-@Entity(tableName = AppConstant.TABLE_ARTICLE,
+@Entity(tableName = AppConstant.TABLE_BOOKMARK,
         primaryKeys = ["url"],
         indices = [(Index("url"))])
 @Parcelize
-data class Article(
+data class Bookmark(
     val saveTime: Date?,
     val author: String?,
     val content: String?,
