@@ -25,4 +25,8 @@ class LocalRepository @Inject constructor(private val articleDao: ArticleDao,
     }
 
     fun saveBookmark(bookmark: Bookmark) = bookmarkDao.insertBookmark(bookmark)
+
+    fun deleteBookmark(url: String) = bookmarkDao.deleteBookmark(url)
+
+    fun getBookmarkIsExist(url: String) = bookmarkDao.getBookmarkIsExist(url)
 }

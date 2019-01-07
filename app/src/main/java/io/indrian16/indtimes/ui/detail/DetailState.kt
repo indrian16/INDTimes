@@ -8,4 +8,5 @@ sealed class DetailState {
 }
 
 data class DefaultDetailState(override val data: Article): DetailState()
+data class ChangeIconDetailState(override val data: Article, val isExist: Boolean): DetailState()
 data class ErrorDetailState(override val data: Article, val errorMessage: String): DetailState()

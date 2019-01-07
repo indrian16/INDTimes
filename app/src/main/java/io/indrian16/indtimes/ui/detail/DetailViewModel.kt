@@ -47,7 +47,48 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe({}, this::onError)
+            .subscribe({
+
+                stateLiveData.value = ChangeIconDetailState(currentArticle!!, true)
+
+            }, this::onError)
+    }
+
+    fun deleteBookmark() {
+
+        compositeDisposable += Observable.fromCallable {
+
+            localRepository.deleteBookmark(currentArticle?.url!!)
+        }
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe({
+
+                stateLiveData.value = ChangeIconDetailState(obtainCurrentArticle(), false)
+
+            }, this::onError)
+    }
+
+    fun checkBookmarkIsExist(url: String) {
+
+        compositeDisposable += localRepository.getBookmarkIsExist(url)
+            .toObservable()
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(this::onReceivedBookmark, this::onError)
+    }
+
+    private fun onReceivedBookmark(bookmark: List<Bookmark>) {
+
+        if (bookmark.isNotEmpty()) {
+
+            d { "Exist" }
+            stateLiveData.value = ChangeIconDetailState(obtainCurrentArticle(), true)
+        } else {
+
+            stateLiveData.value = ChangeIconDetailState(obtainCurrentArticle(), false)
+            d { "No Exist" }
+        }
     }
 
     private fun onError(throwable: Throwable) {
@@ -55,6 +96,8 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
         d { "${throwable.message}" }
         stateLiveData.value = ErrorDetailState(currentArticle!!, throwable.message.toString())
     }
+
+    private fun obtainCurrentArticle() = currentArticle!!
 
     override fun onCleared() {
         super.onCleared()

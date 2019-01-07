@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import io.indrian16.indtimes.data.model.Bookmark
-import io.reactivex.Flowable
+import io.reactivex.Single
 
 @Dao
 interface BookmarkDao {
@@ -14,5 +14,11 @@ interface BookmarkDao {
     fun insertBookmark(bookmark: Bookmark)
 
     @Query("SELECT * FROM bookmarks")
-    fun getBookmarks(): Flowable<List<Bookmark>>
+    fun getBookmarks(): Single<List<Bookmark>>
+
+    @Query("DELETE FROM bookmarks WHERE url = :url")
+    fun deleteBookmark(url: String)
+
+    @Query("SELECT * FROM bookmarks WHERE url = :url")
+    fun getBookmarkIsExist(url: String): Single<List<Bookmark>>
 }

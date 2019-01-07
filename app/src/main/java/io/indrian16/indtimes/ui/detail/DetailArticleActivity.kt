@@ -9,6 +9,7 @@ import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
+import android.support.v4.content.ContextCompat
 import android.text.TextUtils
 import android.view.Menu
 import android.view.MenuItem
@@ -33,7 +34,9 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
     lateinit var viewModelFactory: ViewModelProvider.Factory
     private lateinit var viewModel: DetailViewModel
 
-    private lateinit var shareUrl: String
+    private lateinit var articleUrl: String
+    private lateinit var bookmarkItem: MenuItem
+    private var currentIsBookmark = false
 
     private val stateObserver = Observer<DetailState> { state ->
 
@@ -42,6 +45,19 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
             is DefaultDetailState -> {
 
                 setArticle(state.data)
+            }
+
+            is ChangeIconDetailState -> {
+
+                if (state.isExist) {
+
+                    bookmarkItem.icon = ContextCompat.getDrawable(baseContext, R.drawable.icons8_bookmark_100)
+                    currentIsBookmark = true
+                } else {
+
+                    bookmarkItem.icon = ContextCompat.getDrawable(baseContext, R.drawable.icons8_bookmark_96_black)
+                    currentIsBookmark = false
+                }
             }
 
             is ErrorDetailState -> {
@@ -83,7 +99,21 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
             Glide.with(this).load(it.urlToImage).into(imgDetail)
             tvTitleDetail.text = it.title
             tvContentDetail.text = checkContentNull(it.content)
-            shareUrl = it.url
+            articleUrl = it.url
+        }
+    }
+
+    private fun bookmarkArticle() {
+
+        if (currentIsBookmark) {
+
+            viewModel.deleteBookmark()
+            showToast("Delete Bookmark")
+
+        } else {
+
+            viewModel.saveBookmark()
+            showToast("Bookmarked")
         }
     }
 
@@ -119,6 +149,13 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
         return true
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
+
+        viewModel.checkBookmarkIsExist(articleUrl)
+        bookmarkItem = menu?.findItem(R.id.detailBookmark)!!
+        return super.onPrepareOptionsMenu(menu)
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
         menuInflater.inflate(R.menu.detail_menu, menu)
@@ -133,14 +170,13 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
 
             R.id.detailBookmark -> {
 
-                viewModel.saveBookmark()
-                showToast(resources.getString(R.string.bookmarked))
+                bookmarkArticle()
                 true
             }
 
             R.id.detailShare -> {
 
-                CommnonUtil.shareArticle(this, shareUrl)
+                CommnonUtil.shareArticle(this, articleUrl)
                 true
             }
 
@@ -152,7 +188,7 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
 
         when (v?.id) {
 
-            R.id.btnOpenChrome -> openChromeTab(shareUrl)
+            R.id.btnOpenChrome -> openChromeTab(articleUrl)
         }
     }
 
