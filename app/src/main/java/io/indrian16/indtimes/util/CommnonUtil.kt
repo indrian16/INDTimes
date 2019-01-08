@@ -7,10 +7,11 @@ object CommnonUtil {
 
     fun shareArticle(activity: Activity, url: String) {
 
-        val intent = Intent(Intent.ACTION_SEND)
-        intent.type = "text/plain"
-        intent.putExtra(Intent.EXTRA_TEXT, url)
+        val intent = Intent(Intent.ACTION_SEND).apply {
 
+            type = "text/plain"
+            putExtra(Intent.EXTRA_TEXT, url)
+        }
         activity.startActivity(Intent.createChooser(intent, AppConstant.SHARE_ARTICLE))
     }
 }

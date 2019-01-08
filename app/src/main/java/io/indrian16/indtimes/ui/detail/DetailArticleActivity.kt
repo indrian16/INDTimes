@@ -6,7 +6,6 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.net.Uri
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.customtabs.CustomTabsIntent
 import android.support.v4.content.ContextCompat
@@ -15,15 +14,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
-import dagger.android.AndroidInjection
+import com.github.ajalt.timberkt.d
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.customtab.CustomTabActivityHelper
 import io.indrian16.indtimes.data.model.Article
+import io.indrian16.indtimes.ui.base.BaseActivity
 import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.activity_detail_article.*
 import javax.inject.Inject
 
-class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomTabActivityHelper.CustomTabFallback {
+class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabActivityHelper.CustomTabFallback {
 
     companion object {
 
@@ -36,45 +36,46 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
 
     private lateinit var articleUrl: String
     private lateinit var bookmarkItem: MenuItem
-    private var currentIsBookmark = false
+    private var currentBookmark = false
 
-    private val stateObserver = Observer<DetailState> { state ->
+    private val detailStateObserver = Observer<DetailState> { state ->
 
         when (state) {
 
-            is DefaultDetailState -> {
+            is DefaultState -> {
 
+                d { "Default State" }
                 setArticle(state.data)
             }
 
-            is ChangeIconDetailState -> {
+            is ChangeIconState -> {
 
-                if (state.isExist) {
+                d { "Change Icon State" }
+                currentBookmark = if (state.isBookmark) {
 
-                    bookmarkItem.icon = ContextCompat.getDrawable(baseContext, R.drawable.icons8_bookmark_100)
-                    currentIsBookmark = true
+                    setBookmarkedIcon()
+                    true
                 } else {
 
-                    bookmarkItem.icon = ContextCompat.getDrawable(baseContext, R.drawable.icons8_bookmark_96_black)
-                    currentIsBookmark = false
+                    setBookmarkIcon()
+                    false
                 }
             }
 
-            is ErrorDetailState -> {
+            is ErrorState -> {
 
-                showToast(state.errorMessage)
+                d { "Error State" }
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail_article)
 
         viewModel = obtainViewModel().apply {
 
-            stateLiveData.observe(this@DetailArticleActivity, stateObserver)
+            detailStateLiveData.observe(this@DetailArticleActivity, detailStateObserver)
         }
         val article = intent.getParcelableExtra<Article>(EXTRA_ARTICLE)
         viewModel.receivedArticle(article)
@@ -105,7 +106,7 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
 
     private fun bookmarkArticle() {
 
-        if (currentIsBookmark) {
+        if (currentBookmark) {
 
             viewModel.deleteBookmark()
             showToast("Delete Bookmark")
@@ -197,6 +198,15 @@ class DetailArticleActivity : AppCompatActivity(), View.OnClickListener, CustomT
         val intent = Intent(Intent.ACTION_VIEW, uri)
         startActivity(intent)
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.detailStateLiveData.removeObserver(detailStateObserver)
+    }
+
+    private fun setBookmarkIcon() = bookmarkItem.setIcon(ContextCompat.getDrawable(baseContext, R.drawable.icons8_bookmark_96_black))
+
+    private fun setBookmarkedIcon() = bookmarkItem.setIcon(ContextCompat.getDrawable(baseContext, R.drawable.icons8_bookmark_100))
 
     private fun obtainViewModel() = obtainViewModel(viewModelFactory, DetailViewModel::class.java)
 }

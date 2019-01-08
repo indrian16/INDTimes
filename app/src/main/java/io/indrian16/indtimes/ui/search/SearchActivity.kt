@@ -3,7 +3,6 @@ package io.indrian16.indtimes.ui.search
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.view.MenuItemCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -12,80 +11,72 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.github.ajalt.timberkt.d
-import dagger.android.AndroidInjection
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.data.model.Article
+import io.indrian16.indtimes.ui.base.BaseActivity
 import io.indrian16.indtimes.ui.detail.DetailArticleActivity
 import io.indrian16.indtimes.ui.news.adapter.RvNewsArticle
 import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.activity_search.*
 import javax.inject.Inject
 
-class SearchActivity : AppCompatActivity(), RvNewsArticle.OnNewsArticleOnClickListener {
+class SearchActivity : BaseActivity(), RvNewsArticle.OnNewsArticleOnClickListener {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var viewModel: SearchViewModel
+
+    private lateinit var searchView: SearchView
     private val mAdapter = RvNewsArticle(this)
 
-    private val searchStateObserver = Observer<SearchState> { state ->
+    private val onChangeStateObserver = Observer<SearchChangeState> { changeState ->
 
-        when (state) {
+        when (changeState) {
 
-            is DefaultSearchState -> {
+            is NoInputState -> {
 
-                d {"Default State"}
-                searchLayout.toVisible()
+                searchLayout.toGone()
+                searchLayoutEmpty.toGone()
                 searchLayoutError.toGone()
-                searchLayoutNoFound.toGone()
-                rvSearch.toVisible()
+            }
+        }
+    }
+
+    private val onSubmitStateObserver = Observer<SearchSubmitState> { onSubmitState ->
+
+        when (onSubmitState) {
+
+            is GetDataState -> {
+
+                d { "Get Data State" }
+                defaultLayoutState()
+                mAdapter.add(onSubmitState.dataList)
                 progressBar.toGone()
-                mAdapter.add(state.dataList)
             }
 
+            is LoadingState -> {
 
-            is NoInputSearchState -> {
-
-                d {"No Input State"}
-                searchLayout.toVisible()
-                searchLayoutError.toGone()
-                searchLayoutNoFound.toGone()
-                rvSearch.toGone()
-                progressBar.toGone()
-            }
-
-            is LoadingSearchState -> {
-
-                d {"Loading State"}
-                searchLayout.toVisible()
-                searchLayoutError.toGone()
-                searchLayoutNoFound.toGone()
-                rvSearch.toGone()
+                d { "Loading State" }
+                defaultLayoutState()
                 progressBar.toVisible()
+                mAdapter.clear()
             }
 
-            is NotFoundSearchState -> {
+            is EmptyState -> {
 
-                d {"NotFoundSearch State"}
-                searchLayout.toGone()
-                searchLayoutError.toGone()
-                searchLayoutNoFound.toVisible()
+                d { "No Item State" }
+                emptyLayoutState()
             }
 
-            is ErrorSearchState -> {
+            is ErrorState -> {
 
-                d {"Error State"}
-                searchLayout.toGone()
-                searchLayoutError.toVisible()
-                searchLayoutNoFound.toGone()
-                d { state.errorMessage }
+                d { "Error State" }
+                errorLayoutState()
             }
         }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
@@ -93,7 +84,8 @@ class SearchActivity : AppCompatActivity(), RvNewsArticle.OnNewsArticleOnClickLi
 
         viewModel = obtainViewModel().apply {
 
-            stateLiveData.observe(this@SearchActivity, searchStateObserver)
+            changeStateLiveData.observe(this@SearchActivity, onChangeStateObserver)
+            submitStateLiveData.observe(this@SearchActivity, onSubmitStateObserver)
         }
     }
 
@@ -108,7 +100,6 @@ class SearchActivity : AppCompatActivity(), RvNewsArticle.OnNewsArticleOnClickLi
 
     private fun expandSearchView(menuItem: MenuItem) {
 
-        val searchView = menuItem.actionView as SearchView
         menuItem.expandActionView()
         MenuItemCompat.setOnActionExpandListener(menuItem, object : MenuItemCompat.OnActionExpandListener {
 
@@ -121,10 +112,9 @@ class SearchActivity : AppCompatActivity(), RvNewsArticle.OnNewsArticleOnClickLi
                 return false
             }
         })
-        setupSearchView(searchView)
     }
 
-    private fun setupSearchView(searchView: SearchView) {
+    private fun setupSearchView() {
 
         val closeButton = searchView.findViewById<View>(android.support.v7.appcompat.R.id.search_close_btn)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
@@ -152,7 +142,9 @@ class SearchActivity : AppCompatActivity(), RvNewsArticle.OnNewsArticleOnClickLi
         menuInflater.inflate(R.menu.search_menu, menu)
 
         val menuItem = menu?.findItem(R.id.searchView) as MenuItem
+        searchView = menuItem.actionView as SearchView
         expandSearchView(menuItem)
+        setupSearchView()
         return true
     }
 
@@ -173,6 +165,31 @@ class SearchActivity : AppCompatActivity(), RvNewsArticle.OnNewsArticleOnClickLi
     override fun onClickBookmark(article: Article) {
 
         showToast("Coming!")
+    }
+
+    private fun defaultLayoutState() {
+
+        searchLayout.toVisible()
+        searchLayoutEmpty.toGone()
+        searchLayoutError.toGone()
+    }
+    private fun emptyLayoutState() {
+
+        searchLayout.toGone()
+        searchLayoutEmpty.toVisible()
+        searchLayoutError.toGone()
+    }
+    private fun errorLayoutState() {
+
+        searchLayout.toGone()
+        searchLayoutEmpty.toGone()
+        searchLayoutError.toVisible()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewModel.changeStateLiveData.removeObserver(onChangeStateObserver)
+        viewModel.submitStateLiveData.removeObserver(onSubmitStateObserver)
     }
 
     private fun obtainViewModel() = obtainViewModel(viewModelFactory, SearchViewModel::class.java)

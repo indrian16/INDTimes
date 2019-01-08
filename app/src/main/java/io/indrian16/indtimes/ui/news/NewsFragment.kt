@@ -2,27 +2,25 @@ package io.indrian16.indtimes.ui.news
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProvider
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.github.ajalt.timberkt.d
-import dagger.android.support.AndroidSupportInjection
 
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.data.model.Article
+import io.indrian16.indtimes.ui.base.BaseFragment
 import io.indrian16.indtimes.ui.detail.DetailArticleActivity
 import io.indrian16.indtimes.ui.news.adapter.RvNewsArticle
 import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.fragment_news.*
 import javax.inject.Inject
 
-class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArticle.OnNewsArticleOnClickListener {
+class NewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArticle.OnNewsArticleOnClickListener {
 
     companion object {
 
@@ -39,60 +37,43 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     private lateinit var viewModel: NewsViewModel
-    private val newsAdapter = RvNewsArticle(this)
+
+    private val mAdapter = RvNewsArticle(this)
     private var currentCategory = Category.ALL
 
-    private val newsStateObserver = Observer<NewsState> { state ->
+    private val newsListStateObserver = Observer<NewsListState> { state ->
 
         when (state) {
 
-            is NewsLoadingState -> {
+            is LoadingState -> {
 
                 d { "Loading State" }
-                swipeRv.toVisible()
-                errorLayout.toGone()
-                noDataLayout.toGone()
-
-                swipeRv.isRefreshing = true
-                rvNews.toGone()
+                newsLayout.isRefreshing = true
             }
 
-            is NewsDefaultState -> {
+            is DefaultState -> {
 
                 d { "Default State" }
-                swipeRv.toVisible()
-                errorLayout.toGone()
-                noDataLayout.toGone()
+                defaultLayoutState()
 
-                swipeRv.isRefreshing = false
-                rvNews.toVisible()
-                newsAdapter.add(state.dataList)
+                mAdapter.add(state.dataList)
+                newsLayout.isRefreshing = false
             }
 
-            is NewsEmptyListState -> {
+            is EmptyState -> {
 
                 d {"No Data State"}
-                swipeRv.toGone()
-                errorLayout.toGone()
-                noDataLayout.toVisible()
+                emptyLayoutState()
             }
 
-            is NewsErrorState -> {
+            is ErrorState -> {
 
                 d { "Error State" }
                 d { state.errorMessage }
-                swipeRv.toGone()
-                errorLayout.toVisible()
-                noDataLayout.toGone()
+                errorLayoutState()
             }
         }
-    }
-
-    override fun onAttach(context: Context?) {
-        AndroidSupportInjection.inject(this)
-        super.onAttach(context)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -113,20 +94,20 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
         viewModel = obtainViewModel().apply {
 
-            newsStateLiveData.observe(this@NewsFragment, newsStateObserver)
+            newsListStateLiveData.observe(this@NewsFragment, newsListStateObserver)
         }
         viewModel.updateNews(currentCategory)
     }
 
     private fun initView() {
 
-        swipeRv.setOnRefreshListener(this)
+        newsLayout.setOnRefreshListener(this)
         btnRefresh.setOnClickListener { onRefresh() }
         btnTryAgain.setOnClickListener { onRefresh() }
         rvNews.apply {
 
             layoutManager = LinearLayoutManager(context)
-            adapter = newsAdapter
+            adapter = mAdapter
         }
     }
 
@@ -138,12 +119,12 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
 
     override fun onDestroy() {
         super.onDestroy()
-        viewModel.newsStateLiveData.removeObserver(newsStateObserver)
+        viewModel.newsListStateLiveData.removeObserver(newsListStateObserver)
     }
 
     override fun onRefresh() {
 
-        newsAdapter.clear()
+        mAdapter.clear()
         viewModel.refreshNews(currentCategory)
     }
 
@@ -163,6 +144,27 @@ class NewsFragment : Fragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArt
     override fun onClickBookmark(article: Article) {
 
         showToast("Bookmark is Coming")
+    }
+
+    private fun defaultLayoutState() {
+
+        newsLayout.toVisible()
+        newsLayoutEmpty.toGone()
+        newsLayoutError.toGone()
+    }
+
+    private fun emptyLayoutState() {
+
+        newsLayout.toGone()
+        newsLayoutEmpty.toVisible()
+        newsLayoutError.toGone()
+    }
+
+    private fun errorLayoutState() {
+
+        newsLayout.toGone()
+        newsLayoutEmpty.toGone()
+        newsLayoutError.toVisible()
     }
 
     private fun obtainViewModel() = obtainViewModel(viewModelFactory, NewsViewModel::class.java)

@@ -13,12 +13,14 @@ import javax.inject.Inject
 
 class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    val stateLiveData = MutableLiveData<SearchState>()
+    val changeStateLiveData = MutableLiveData<SearchChangeState>()
+    val submitStateLiveData = MutableLiveData<SearchSubmitState>()
+
     private val compositeDisposable = CompositeDisposable()
 
     init {
 
-        stateLiveData.value = NoInputSearchState(emptyList())
+        changeStateLiveData.value = NoInputState
     }
 
     fun getSearchListOnSubmit(query: String) {
@@ -34,24 +36,24 @@ class SearchViewModel @Inject constructor(private val repository: Repository) : 
 
     private fun onLoading() {
 
-        stateLiveData.value = LoadingSearchState(emptyList())
+        submitStateLiveData.value = LoadingState
     }
 
     private fun onReceivedList(dataList: List<Article>) {
 
         if (dataList.isNotEmpty()) {
 
-            stateLiveData.value = DefaultSearchState(dataList)
+            submitStateLiveData.value = GetDataState(dataList)
 
         } else {
 
-            stateLiveData.value = NotFoundSearchState(emptyList())
+            submitStateLiveData.value = EmptyState
         }
     }
 
     private fun onError(throwable: Throwable) {
 
-        stateLiveData.value = ErrorSearchState(emptyList(), throwable.message.toString())
+        submitStateLiveData.value = ErrorState(throwable.message.toString())
     }
 
     override fun onCleared() {

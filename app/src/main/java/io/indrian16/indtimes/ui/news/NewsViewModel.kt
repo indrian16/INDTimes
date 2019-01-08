@@ -14,16 +14,14 @@ import javax.inject.Inject
 
 class NewsViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
 
-    val newsStateLiveData = MutableLiveData<NewsState>()
+    val newsListStateLiveData = MutableLiveData<NewsListState>()
 
     private val compositeDisposable = CompositeDisposable()
 
     init {
 
-        newsStateLiveData.value = NewsLoadingState(emptyList())
+        newsListStateLiveData.value = LoadingState(emptyList())
     }
-
-    private fun obtainCurrentData() = newsStateLiveData.value?.dataList ?: emptyList()
 
     fun updateNews(category: String) {
 
@@ -32,7 +30,7 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
     fun refreshNews(category: String) {
 
-        newsStateLiveData.value = NewsLoadingState(emptyList())
+        newsListStateLiveData.value = LoadingState(emptyList())
         getNewsList(category)
     }
 
@@ -54,18 +52,20 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
             val currentData = obtainCurrentData().toMutableList()
             currentData.addAll(dataList)
 
-            newsStateLiveData.value = NewsDefaultState(currentData)
+            newsListStateLiveData.value = DefaultState(currentData)
 
         } else {
 
-            newsStateLiveData.value = NewsEmptyListState(emptyList())
+            newsListStateLiveData.value = EmptyState(emptyList())
         }
     }
 
     private fun onError(throwable: Throwable) {
 
-        newsStateLiveData.value = NewsErrorState(throwable.message.toString(), obtainCurrentData())
+        newsListStateLiveData.value = ErrorState(throwable.message.toString(), obtainCurrentData())
     }
+
+    private fun obtainCurrentData() = newsListStateLiveData.value?.dataList ?: emptyList()
 
     override fun onCleared() {
         super.onCleared()

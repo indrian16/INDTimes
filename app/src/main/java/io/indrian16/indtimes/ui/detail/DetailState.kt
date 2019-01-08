@@ -7,6 +7,6 @@ sealed class DetailState {
     abstract val data: Article
 }
 
-data class DefaultDetailState(override val data: Article): DetailState()
-data class ChangeIconDetailState(override val data: Article, val isExist: Boolean): DetailState()
-data class ErrorDetailState(override val data: Article, val errorMessage: String): DetailState()
+data class DefaultState(override val data: Article): DetailState()
+data class ChangeIconState(override val data: Article, val isBookmark: Boolean): DetailState()
+data class ErrorState(override val data: Article, val errorMessage: String): DetailState()

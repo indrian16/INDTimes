@@ -1,7 +1,6 @@
 package io.indrian16.indtimes.ui.main
 
 import android.content.Intent
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.design.widget.NavigationView
@@ -10,11 +9,11 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
-import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.indrian16.indtimes.R
+import io.indrian16.indtimes.ui.base.BaseActivity
 import io.indrian16.indtimes.ui.bookmark.BookmarkFragment
 import io.indrian16.indtimes.util.Category
 import io.indrian16.indtimes.ui.news.NewsFragment
@@ -23,7 +22,7 @@ import io.indrian16.indtimes.util.showToast
 import kotlinx.android.synthetic.main.activity_main.*
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+class MainActivity : BaseActivity(), HasSupportFragmentInjector {
 
     private val botListener = BottomNavigationView.OnNavigationItemSelectedListener {
 
@@ -110,7 +109,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 

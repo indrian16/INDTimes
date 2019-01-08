@@ -7,7 +7,7 @@
     tools:context=".ui.news.NewsFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRv"
+        android:id="@+id/newsLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="visible">
@@ -20,7 +20,7 @@
     </android.support.v4.widget.SwipeRefreshLayout>
 
     <RelativeLayout
-        android:id="@+id/errorLayout"
+        android:id="@+id/newsLayoutError"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">
@@ -63,7 +63,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/noDataLayout"
+        android:id="@+id/newsLayoutEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone">

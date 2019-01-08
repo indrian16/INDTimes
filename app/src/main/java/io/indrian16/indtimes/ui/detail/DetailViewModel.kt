@@ -16,20 +16,19 @@ import javax.inject.Inject
 class DetailViewModel @Inject constructor(private val localRepository: LocalRepository) : ViewModel() {
 
     private val compositeDisposable = CompositeDisposable()
-    private var currentArticle: Article? = null
-
-    val stateLiveData = MutableLiveData<DetailState>()
+    private lateinit var currentArticle: Article
+    val detailStateLiveData = MutableLiveData<DetailState>()
 
     fun receivedArticle(article: Article?) {
 
         currentArticle = article!!
-        stateLiveData.value = DefaultDetailState(currentArticle!!)
+        detailStateLiveData.value = DefaultState(currentArticle)
     }
 
     fun saveBookmark() {
 
-        var currentBookmark: Bookmark? = null
-        currentArticle?.let { currentBookmark = Bookmark(
+        var currentBookmark: Bookmark?
+        currentArticle.let { currentBookmark = Bookmark(
 
             saveTime = it.saveTime,
             author = it.author,
@@ -49,7 +48,8 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
 
-                stateLiveData.value = ChangeIconDetailState(currentArticle!!, true)
+                detailStateLiveData.value = ChangeIconState(currentArticle, true)
+                d { "Save Bookmark" }
 
             }, this::onError)
     }
@@ -58,13 +58,14 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
 
         compositeDisposable += Observable.fromCallable {
 
-            localRepository.deleteBookmark(currentArticle?.url!!)
+            localRepository.deleteBookmark(currentArticle.url)
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe({
 
-                stateLiveData.value = ChangeIconDetailState(obtainCurrentArticle(), false)
+                detailStateLiveData.value = ChangeIconState(currentArticle, false)
+                d { "Delete Bookmark" }
 
             }, this::onError)
     }
@@ -82,22 +83,21 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
 
         if (bookmark.isNotEmpty()) {
 
-            d { "Exist" }
-            stateLiveData.value = ChangeIconDetailState(obtainCurrentArticle(), true)
+            d { "Bookmark Exist" }
+            detailStateLiveData.value = ChangeIconState(currentArticle, true)
+
         } else {
 
-            stateLiveData.value = ChangeIconDetailState(obtainCurrentArticle(), false)
-            d { "No Exist" }
+            detailStateLiveData.value = ChangeIconState(currentArticle, false)
+            d { "Bookmark Not Exist" }
         }
     }
 
     private fun onError(throwable: Throwable) {
 
         d { "${throwable.message}" }
-        stateLiveData.value = ErrorDetailState(currentArticle!!, throwable.message.toString())
+        detailStateLiveData.value = ErrorState(currentArticle, throwable.message.toString())
     }
-
-    private fun obtainCurrentArticle() = currentArticle!!
 
     override fun onCleared() {
         super.onCleared()

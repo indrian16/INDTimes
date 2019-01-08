@@ -10,7 +10,7 @@
         android:id="@+id/searchLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/rvSearch"
@@ -55,10 +55,10 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/searchLayoutNoFound"
+        android:id="@+id/searchLayoutEmpty"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <ImageView
             android:id="@+id/imgNoFound"
