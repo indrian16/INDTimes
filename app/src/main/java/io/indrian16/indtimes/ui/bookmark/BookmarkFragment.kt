@@ -1,14 +1,14 @@
 package io.indrian16.indtimes.ui.bookmark
 
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import io.indrian16.indtimes.R
 
-class BookmarkFragment : Fragment() {
+class BookmarkFragment : androidx.fragment.app.Fragment() {
 
     companion object {
 

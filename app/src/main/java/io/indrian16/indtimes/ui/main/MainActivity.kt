@@ -2,10 +2,10 @@ package io.indrian16.indtimes.ui.main
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.NavigationView
-import android.support.v4.app.Fragment
-import android.support.v7.app.ActionBarDrawerToggle
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
@@ -102,11 +102,11 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
     }
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
 
     private var currentCategory = Category.ALL
 
-    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
+    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> = dispatchingAndroidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -175,7 +175,7 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
 
     }
 
-    private fun changeFragmentWithBot(fragment: Fragment) {
+    private fun changeFragmentWithBot(fragment: androidx.fragment.app.Fragment) {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.mainContainer, fragment)

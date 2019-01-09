@@ -1,7 +1,7 @@
 package io.indrian16.indtimes.data.model
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.Index
+import androidx.room.Entity
+import androidx.room.Index
 import android.os.Parcelable
 import io.indrian16.indtimes.util.AppConstant
 import kotlinx.android.parcel.Parcelize

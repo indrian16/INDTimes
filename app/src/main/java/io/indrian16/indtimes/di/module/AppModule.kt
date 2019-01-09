@@ -1,7 +1,7 @@
 package io.indrian16.indtimes.di.module
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import android.content.Context
 import dagger.Module
 import dagger.Provides

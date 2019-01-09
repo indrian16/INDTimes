@@ -1,7 +1,7 @@
 package io.indrian16.indtimes.ui.news
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.github.ajalt.timberkt.d
 import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.data.repository.Repository

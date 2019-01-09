@@ -1,6 +1,6 @@
 package io.indrian16.indtimes.ui.search.adapter
 
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +8,7 @@ import io.indrian16.indtimes.R
 import io.indrian16.indtimes.data.model.Article
 import kotlinx.android.synthetic.main.search_item.view.*
 
-class RvSearchItem(private val listener: OnSearchClickListener) : RecyclerView.Adapter<RvSearchItem.SearchHolder>(){
+class RvSearchItem(private val listener: OnSearchClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<RvSearchItem.SearchHolder>(){
 
     private var articleList: List<Article> = arrayListOf()
 
@@ -35,7 +35,7 @@ class RvSearchItem(private val listener: OnSearchClickListener) : RecyclerView.A
         notifyDataSetChanged()
     }
 
-    inner class SearchHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class SearchHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
         fun bind(article: Article) {
 

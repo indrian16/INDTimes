@@ -2,14 +2,13 @@ package io.indrian16.indtimes.ui.detail
 
 import android.annotation.SuppressLint
 import android.app.Activity
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.support.customtabs.CustomTabsIntent
-import android.support.v4.content.ContextCompat
-import android.text.TextUtils
+import androidx.browser.customtabs.CustomTabsIntent
+import androidx.core.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -65,6 +64,7 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
             is ErrorState -> {
 
                 d { "Error State" }
+                showToast(state.errorMessage)
             }
         }
     }
@@ -99,7 +99,7 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
 
             Glide.with(this).load(it.urlToImage).into(imgDetail)
             tvTitleDetail.text = it.title
-            tvContentDetail.text = checkContentNull(it.content)
+            tvContentDetail.text = it.content ?: AppConstant.NO_CONTENT
             articleUrl = it.url
         }
     }
@@ -121,17 +121,6 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
     private fun setListener() {
 
         btnOpenChrome.setOnClickListener(this)
-    }
-
-    private fun checkContentNull(content: String?): String {
-
-        return if (!TextUtils.isEmpty(content)) {
-
-            content!!
-        } else {
-
-            AppConstant.NO_CONTENT
-        }
     }
 
     @SuppressLint("PrivateResource")

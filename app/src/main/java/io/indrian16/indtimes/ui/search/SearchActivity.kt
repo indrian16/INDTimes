@@ -1,12 +1,12 @@
 package io.indrian16.indtimes.ui.search
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProvider
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.MenuItemCompat
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.SearchView
+import androidx.core.view.MenuItemCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.appcompat.widget.SearchView
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -93,7 +93,7 @@ class SearchActivity : BaseActivity(), RvNewsArticle.OnNewsArticleOnClickListene
 
         rvSearch.apply {
 
-            layoutManager = LinearLayoutManager(baseContext)
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(baseContext)
             adapter = mAdapter
         }
     }
@@ -116,7 +116,7 @@ class SearchActivity : BaseActivity(), RvNewsArticle.OnNewsArticleOnClickListene
 
     private fun setupSearchView() {
 
-        val closeButton = searchView.findViewById<View>(android.support.v7.appcompat.R.id.search_close_btn)
+        val closeButton = searchView.findViewById<View>(androidx.appcompat.R.id.search_close_btn)
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
             override fun onQueryTextSubmit(query: String?): Boolean {

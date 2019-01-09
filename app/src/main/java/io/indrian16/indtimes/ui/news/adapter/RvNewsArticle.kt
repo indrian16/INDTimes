@@ -1,7 +1,7 @@
 package io.indrian16.indtimes.ui.news.adapter
 
-import android.support.v7.widget.PopupMenu
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.widget.PopupMenu
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +10,7 @@ import io.indrian16.indtimes.R
 import io.indrian16.indtimes.data.model.Article
 import kotlinx.android.synthetic.main.article_item.view.*
 
-class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : RecyclerView.Adapter<RvNewsArticle.NewsHolder>() {
+class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : androidx.recyclerview.widget.RecyclerView.Adapter<RvNewsArticle.NewsHolder>() {
 
     private var articleList: List<Article> = arrayListOf()
 
@@ -37,7 +37,7 @@ class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : Recycl
         notifyDataSetChanged()
     }
 
-    inner class NewsHolder(view: View) : RecyclerView.ViewHolder(view) {
+    inner class NewsHolder(view: View) : androidx.recyclerview.widget.RecyclerView.ViewHolder(view) {
 
         fun bind(article: Article) {
 

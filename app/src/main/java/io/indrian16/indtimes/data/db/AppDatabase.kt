@@ -1,8 +1,8 @@
 package io.indrian16.indtimes.data.db
 
-import android.arch.persistence.room.Database
-import android.arch.persistence.room.RoomDatabase
-import android.arch.persistence.room.TypeConverters
+import androidx.room.Database
+import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.data.model.Bookmark
 import io.indrian16.indtimes.util.AppConstant
