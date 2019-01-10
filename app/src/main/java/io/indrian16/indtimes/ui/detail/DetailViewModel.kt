@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.ajalt.timberkt.d
 import io.indrian16.indtimes.data.model.Article
-import io.indrian16.indtimes.data.model.Bookmark
+import io.indrian16.indtimes.data.model.Favorite
 import io.indrian16.indtimes.data.repository.LocalRepository
 import io.indrian16.indtimes.util.plusAssign
 import io.reactivex.Observable
@@ -25,24 +25,22 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
         detailStateLiveData.value = DefaultState(currentArticle)
     }
 
-    fun saveBookmark() {
+    fun addFavorite() {
 
-        var currentBookmark: Bookmark?
-        currentArticle.let { currentBookmark = Bookmark(
+        val currentFavorite = currentArticle.let { Favorite (
 
-            saveTime = it.saveTime,
-            author = it.author,
-            content = it.content,
-            description = it.description,
-            publishedAt = it.publishedAt,
-            title = it.title,
-            url = it.url,
-            urlToImage = it.urlToImage
+                saveTime = it.saveTime,
+                author = it.author,
+                content = it.content,
+                description = it.description,
+                publishedAt = it.publishedAt,
+                title = it.title,
+                url = it.url,
+                urlToImage = it.urlToImage
         ) }
-
         compositeDisposable += Observable.fromCallable {
 
-            localRepository.saveBookmark(currentBookmark!!)
+            localRepository.addFavorite(currentFavorite)
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -54,11 +52,11 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
             }, this::onError)
     }
 
-    fun deleteBookmark() {
+    fun deleteFavorite() {
 
         compositeDisposable += Observable.fromCallable {
 
-            localRepository.deleteBookmark(currentArticle.url)
+            localRepository.deleteFavorite(currentArticle.url)
         }
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
@@ -70,26 +68,26 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
             }, this::onError)
     }
 
-    fun checkBookmarkIsExist(url: String) {
+    fun checkFavorite(url: String) {
 
-        compositeDisposable += localRepository.getBookmarkIsExist(url)
+        compositeDisposable += localRepository.getFavoriteIsExist(url)
             .toObservable()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(this::onReceivedBookmark, this::onError)
+            .subscribe(this::onReceivedFavoriteList, this::onError)
     }
 
-    private fun onReceivedBookmark(bookmark: List<Bookmark>) {
+    private fun onReceivedFavoriteList(bookmark: List<Favorite>) {
 
         if (bookmark.isNotEmpty()) {
 
-            d { "Bookmark Exist" }
+            d { "Favorite Exist" }
             detailStateLiveData.value = ChangeIconState(currentArticle, true)
 
         } else {
 
             detailStateLiveData.value = ChangeIconState(currentArticle, false)
-            d { "Bookmark Not Exist" }
+            d { "Favorite Not Exist" }
         }
     }
 

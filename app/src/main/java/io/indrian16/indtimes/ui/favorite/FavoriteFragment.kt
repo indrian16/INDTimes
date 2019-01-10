@@ -1,18 +1,17 @@
-package io.indrian16.indtimes.ui.bookmark
+package io.indrian16.indtimes.ui.favorite
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
 import io.indrian16.indtimes.R
 
-class BookmarkFragment : androidx.fragment.app.Fragment() {
+class FavoriteFragment : androidx.fragment.app.Fragment() {
 
     companion object {
 
-        fun newInstance() = BookmarkFragment()
+        fun newInstance() = FavoriteFragment()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,

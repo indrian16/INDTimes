@@ -27,5 +27,5 @@ class AppModule {
     fun provideArticleDao(appDatabase: AppDatabase) = appDatabase.articleDao()
 
     @Provides
-    fun provideBookmarkDao(appDatabase: AppDatabase) = appDatabase.bookmarkDao()
+    fun provideFavoriteDao(appDatabase: AppDatabase) = appDatabase.favoriteDao()
 }

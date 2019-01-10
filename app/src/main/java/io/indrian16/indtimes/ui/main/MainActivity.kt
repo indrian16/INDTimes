@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
-import androidx.fragment.app.Fragment
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.Gravity
 import android.view.Menu
@@ -14,7 +13,7 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.ui.base.BaseActivity
-import io.indrian16.indtimes.ui.bookmark.BookmarkFragment
+import io.indrian16.indtimes.ui.favorite.FavoriteFragment
 import io.indrian16.indtimes.util.Category
 import io.indrian16.indtimes.ui.news.NewsFragment
 import io.indrian16.indtimes.ui.search.SearchActivity
@@ -34,9 +33,9 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
                 return@OnNavigationItemSelectedListener true
             }
 
-            R.id.navBookmark -> {
+            R.id.navFavorite -> {
 
-                changeFragmentWithBot(BookmarkFragment.newInstance())
+                changeFragmentWithBot(FavoriteFragment.newInstance())
                 return@OnNavigationItemSelectedListener true
             }
         }

@@ -3,9 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/detailBookmark"
-        android:title="@string/bookmark"
-        android:icon="@drawable/icons8_bookmark_96_black"
+        android:id="@+id/detailFavorite"
+        android:title="@string/favorite"
+        android:icon="@drawable/icons8_heart_outline_96"
         app:showAsAction="always"/>
 
     <item

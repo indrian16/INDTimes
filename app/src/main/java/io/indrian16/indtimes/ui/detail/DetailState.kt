@@ -8,5 +8,5 @@ sealed class DetailState {
 }
 
 data class DefaultState(override val data: Article): DetailState()
-data class ChangeIconState(override val data: Article, val isBookmark: Boolean): DetailState()
+data class ChangeIconState(override val data: Article, val isFavorite: Boolean): DetailState()
 data class ErrorState(override val data: Article, val errorMessage: String): DetailState()

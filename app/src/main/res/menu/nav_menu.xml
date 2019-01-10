@@ -42,7 +42,7 @@
                 <item
                     android:id="@+id/catTechnology"
                     android:title="@string/technology"
-                    android:icon="@drawable/ic_business" />
+                    android:icon="@drawable/icons8_robot_100" />
 
             </group>
         </menu>

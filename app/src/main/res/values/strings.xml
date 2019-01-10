@@ -5,18 +5,15 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="read_article_title">Read Article</string>
     <string name="news">News</string>
-    <string name="bookmark">Bookmark</string>
-    <string name="bookmarked">Bookmarked</string>
-    <string name="menu">Menu</string>
+    <string name="favorite">Favorite</string>
+    <string name="add_favorite">Add Favorite</string>
+    <string name="del_favorite">Delete Favorite</string>
     <string name="setting">Setting</string>
     <string name="search">Search</string>
     <string name="category">Category</string>
     <string name="article_image">Article Image</string>
-    <string name="share_button">Share Button</string>
-    <string name="bookmark_button">Bookmark Button</string>
     <string name="all">All</string>
     <string name="business">Business</string>
     <string name="entertainment">Entertainment</string>
@@ -24,13 +21,8 @@
     <string name="science">Science</string>
     <string name="sports">Sports</string>
     <string name="technology">Technology</string>
-    <string name="content">Content:</string>
     <string name="read_full_with_tab_chrome">Read Full With Chrome Tab</string>
     <string name="share">Share</string>
-    <string name="todo">TODO</string>
-    <string name="tri_dot">⋮</string>
-    <string name="author_label">Author:</string>
-    <string name="author_anonymous">Anonymous</string>
     <string name="error_icon">Error Icon</string>
     <string name="oops_error">Oops Error</string>
     <string name="refresh">Refresh</string>

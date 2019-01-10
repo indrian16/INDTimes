@@ -34,8 +34,8 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
     private lateinit var viewModel: DetailViewModel
 
     private lateinit var articleUrl: String
-    private lateinit var bookmarkItem: MenuItem
-    private var currentBookmark = false
+    private lateinit var favoriteItem: MenuItem
+    private var currentFavorite = false
 
     private val detailStateObserver = Observer<DetailState> { state ->
 
@@ -50,13 +50,13 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
             is ChangeIconState -> {
 
                 d { "Change Icon State" }
-                currentBookmark = if (state.isBookmark) {
+                currentFavorite = if (state.isFavorite) {
 
-                    setBookmarkedIcon()
+                    setFilledIcon()
                     true
                 } else {
 
-                    setBookmarkIcon()
+                    setOutlineIcon()
                     false
                 }
             }
@@ -104,17 +104,17 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
         }
     }
 
-    private fun bookmarkArticle() {
+    private fun favoriteArticle() {
 
-        if (currentBookmark) {
+        if (currentFavorite) {
 
-            viewModel.deleteBookmark()
-            showToast("Delete Bookmark")
+            viewModel.deleteFavorite()
+            showToast(resources.getString(R.string.del_favorite))
 
         } else {
 
-            viewModel.saveBookmark()
-            showToast("Bookmarked")
+            viewModel.addFavorite()
+            showToast(resources.getString(R.string.add_favorite))
         }
     }
 
@@ -141,8 +141,8 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
 
     override fun onPrepareOptionsMenu(menu: Menu?): Boolean {
 
-        viewModel.checkBookmarkIsExist(articleUrl)
-        bookmarkItem = menu?.findItem(R.id.detailBookmark)!!
+        viewModel.checkFavorite(articleUrl)
+        favoriteItem = menu?.findItem(R.id.detailFavorite)!!
         return super.onPrepareOptionsMenu(menu)
     }
 
@@ -158,9 +158,9 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
 
             android.R.id.home -> { finish(); true }
 
-            R.id.detailBookmark -> {
+            R.id.detailFavorite -> {
 
-                bookmarkArticle()
+                favoriteArticle()
                 true
             }
 
@@ -193,9 +193,9 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
         viewModel.detailStateLiveData.removeObserver(detailStateObserver)
     }
 
-    private fun setBookmarkIcon() = bookmarkItem.setIcon(ContextCompat.getDrawable(baseContext, R.drawable.icons8_bookmark_96_black))
+    private fun setOutlineIcon() = favoriteItem.setIcon(ContextCompat.getDrawable(baseContext, R.drawable.icons8_heart_outline_96))
 
-    private fun setBookmarkedIcon() = bookmarkItem.setIcon(ContextCompat.getDrawable(baseContext, R.drawable.icons8_bookmark_100))
+    private fun setFilledIcon() = favoriteItem.setIcon(ContextCompat.getDrawable(baseContext, R.drawable.icons8_love_96))
 
     private fun obtainViewModel() = obtainViewModel(viewModelFactory, DetailViewModel::class.java)
 }

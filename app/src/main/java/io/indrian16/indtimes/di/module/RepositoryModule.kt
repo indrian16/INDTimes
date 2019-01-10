@@ -5,7 +5,7 @@ import dagger.Module
 import dagger.Provides
 import io.indrian16.indtimes.data.api.NewsService
 import io.indrian16.indtimes.data.db.ArticleDao
-import io.indrian16.indtimes.data.db.BookmarkDao
+import io.indrian16.indtimes.data.db.FavoriteDao
 import io.indrian16.indtimes.data.repository.LocalRepository
 import io.indrian16.indtimes.data.repository.Repository
 
@@ -13,7 +13,7 @@ import io.indrian16.indtimes.data.repository.Repository
 class RepositoryModule {
 
     @Provides
-    fun provideLocalRepository(articleDao: ArticleDao, bookmarkDao: BookmarkDao) = LocalRepository(articleDao, bookmarkDao)
+    fun provideLocalRepository(articleDao: ArticleDao, favoriteDao: FavoriteDao) = LocalRepository(articleDao, favoriteDao)
 
     @Provides
     fun provideRepository(context: Context,
