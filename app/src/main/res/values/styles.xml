@@ -1,28 +1,28 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
-    <style name="AppTheme.Normal" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="AppTheme.Normal" parent="Theme.MaterialComponents.Light.NoActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryTextColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
-    <style name="AppTheme.Search" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme.Search" parent="Theme.MaterialComponents.Light.DarkActionBar.Bridge">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryDarkColor</item>
         <item name="colorAccent">@color/secondaryColor</item>
     </style>
 
-    <style name="AppTheme.ToolbarTitle" parent="Base.TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="AppTheme.ToolbarTitle" parent="ThemeOverlay.MaterialComponents.Toolbar.Primary">
 
         <item name="android:fontFamily">@font/open_sans_bold</item>
         <item name="android:textSize">18sp</item>

@@ -1,60 +1,77 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView style="@style/Widget.MaterialComponents.CardView"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="250dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_marginTop="8dp"
-    android:layout_marginEnd="4dp"
-    android:layout_marginStart="4dp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:minHeight="250dp"
+    android:layout_marginTop="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    app:cardElevation="2dp"
     app:cardCornerRadius="4dp"
-    app:elevation="4dp">
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <ImageView
             android:id="@+id/imgArticle"
             android:layout_width="match_parent"
-            android:layout_height="170dp"
+            android:layout_height="150dp"
             android:contentDescription="@string/article_image"
-            android:scaleType="centerCrop"
+            android:scaleType="fitXY"
             android:src="@drawable/sample_img"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tvTitle"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:paddingStart="8dp"
-            android:paddingEnd="8dp"
-            android:fontFamily="@font/open_sans_bold"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="12dp"
+            android:layout_marginEnd="12dp"
+            android:minLines="3"
             android:maxLines="3"
+            android:fontFamily="@font/open_sans_bold"
             android:text="PUBG Mobile Sudah Diupdate tapi Map Vikendi Belum Tersedia, PUBG Berikan Penjelasan - Pos Belitung"
-            android:textColor="@color/primaryTextColor"
-            android:textSize="16sp"
-            app:layout_constraintTop_toBottomOf="@+id/imgArticle"/>
+            android:textSize="14sp"
+            android:textColor="#333333"
+            app:layout_constraintTop_toBottomOf="@+id/imgArticle" />
 
-
-        <TextView
-            android:id="@+id/tvOptionMenu"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
-            android:paddingStart="12dp"
-            android:paddingEnd="12dp"
-            android:text="@string/tri_dot"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="#666666"
-            android:textSize="18sp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:clickable="true"
-            android:focusable="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="end"
+            android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/imgArticle" />
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle">
+
+            <ImageButton
+                android:id="@+id/btnBookmark"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="14dp"
+                android:layout_marginRight="14dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/icons8_bookmark_96_black" />
+
+            <ImageButton
+                android:id="@+id/btnShare"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/icons8_share_96_black" />
+
+        </LinearLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

@@ -124,9 +124,9 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
     }
 
     @SuppressLint("PrivateResource")
-    private fun openChromeTab(url: String) {
+    private fun openChromeTab() {
 
-        val uri = url.toUri()
+        val uri = articleUrl.toUri()
         val intent = CustomTabsIntent.Builder()
             .setShowTitle(true)
             .build()
@@ -178,7 +178,7 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
 
         when (v?.id) {
 
-            R.id.btnOpenChrome -> openChromeTab(articleUrl)
+            R.id.btnOpenChrome -> openChromeTab()
         }
     }
 

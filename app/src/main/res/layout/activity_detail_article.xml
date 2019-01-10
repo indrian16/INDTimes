@@ -32,18 +32,18 @@
             <ImageView
                 android:id="@+id/imgDetail"
                 android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:src="@drawable/sample_img"
-                android:scaleType="centerCrop"
-                android:contentDescription="Image Article" />
+                android:layout_height="200dp"
+                android:contentDescription="Image Article"
+                android:scaleType="fitXY"
+                android:src="@drawable/sample_img" />
 
             <TextView
                 android:id="@+id/tvTitleDetail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="12dp"
-                android:paddingStart="10dp"
-                android:paddingEnd="10dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:text="PUBG Mobile Sudah Diupdate tapi Map Vikendi Belum Tersedia, PUBG Berikan Penjelasan - Pos Belitung"
                 android:textSize="18sp"
                 android:textColor="@color/primaryTextColor"
@@ -57,8 +57,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/open_sans_regular"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
+                android:paddingStart="14dp"
+                android:paddingEnd="14dp"
                 android:text="PUBG Mobile Sudah Diupdate tapi Map Vikendi Belum Tersedia, PUBG Berikan Penjelasan POSBELITUNG.CO - Bagi anda penikmat game PUBG Mobile saat ini sudah dapat diupdate melalui aplikasi Play Store maupun App Store. PUBG Mobile meluncurkan update baru yang membe… [+956 chars]"
                 android:textSize="16sp"
                 android:textColor="@color/secondaryTextColor"
