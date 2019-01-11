@@ -7,8 +7,8 @@ import dagger.android.support.AndroidSupportInjection
 abstract class BaseFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
         performDI()
+        super.onCreate(savedInstanceState)
     }
 
     private fun performDI() = AndroidSupportInjection.inject(this)

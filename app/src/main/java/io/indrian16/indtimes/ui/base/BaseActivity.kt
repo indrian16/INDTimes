@@ -7,9 +7,8 @@ import dagger.android.AndroidInjection
 abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
         performDI()
+        super.onCreate(savedInstanceState)
     }
 
     private fun performDI() = AndroidInjection.inject(this)

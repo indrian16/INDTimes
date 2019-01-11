@@ -49,6 +49,7 @@ class NewsFragment : BaseFragment(), androidx.swiperefreshlayout.widget.SwipeRef
             is LoadingState -> {
 
                 d { "Loading State" }
+                defaultLayoutState()
                 newsLayout.isRefreshing = true
             }
 
