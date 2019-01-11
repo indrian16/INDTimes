@@ -20,7 +20,7 @@ import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.fragment_news.*
 import javax.inject.Inject
 
-class NewsFragment : BaseFragment(), androidx.swiperefreshlayout.widget.SwipeRefreshLayout.OnRefreshListener, RvNewsArticle.OnNewsArticleOnClickListener {
+class NewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, RvNewsArticle.OnNewsArticleOnClickListener {
 
     companion object {
 
@@ -107,7 +107,7 @@ class NewsFragment : BaseFragment(), androidx.swiperefreshlayout.widget.SwipeRef
         btnTryAgain.setOnClickListener { onRefresh() }
         rvNews.apply {
 
-            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
+            layoutManager = LinearLayoutManager(context)
             adapter = mAdapter
         }
     }

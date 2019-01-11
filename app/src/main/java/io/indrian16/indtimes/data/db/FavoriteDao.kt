@@ -13,7 +13,7 @@ interface FavoriteDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insertFavorite(bookmark: Favorite)
 
-    @Query("SELECT * FROM favorites")
+    @Query("SELECT * FROM favorites ORDER BY saveTime DESC")
     fun getFavorites(): Single<List<Favorite>>
 
     @Query("DELETE FROM favorites WHERE url = :url")

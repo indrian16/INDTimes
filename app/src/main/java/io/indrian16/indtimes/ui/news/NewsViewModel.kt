@@ -48,7 +48,6 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
         if (dataList.isNotEmpty()) {
 
-            d {"get data from repo ${dataList.size}"}
             val currentData = obtainCurrentData().toMutableList()
             currentData.addAll(dataList)
 

@@ -11,6 +11,7 @@ import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
+import java.util.*
 import javax.inject.Inject
 
 class DetailViewModel @Inject constructor(private val localRepository: LocalRepository) : ViewModel() {
@@ -29,7 +30,7 @@ class DetailViewModel @Inject constructor(private val localRepository: LocalRepo
 
         val currentFavorite = currentArticle.let { Favorite (
 
-                saveTime = it.saveTime,
+                saveTime = Date(System.currentTimeMillis()),
                 author = it.author,
                 content = it.content,
                 description = it.description,

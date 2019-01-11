@@ -12,11 +12,11 @@ import androidx.core.content.ContextCompat
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import com.bumptech.glide.Glide
 import com.github.ajalt.timberkt.d
 import io.indrian16.indtimes.R
 import io.indrian16.indtimes.customtab.CustomTabActivityHelper
 import io.indrian16.indtimes.data.model.Article
+import io.indrian16.indtimes.di.module.GlideApp
 import io.indrian16.indtimes.ui.base.BaseActivity
 import io.indrian16.indtimes.util.*
 import kotlinx.android.synthetic.main.activity_detail_article.*
@@ -97,7 +97,7 @@ class DetailArticleActivity : BaseActivity(), View.OnClickListener, CustomTabAct
 
         article?.let {
 
-            Glide.with(this).load(it.urlToImage).into(imgDetail)
+            GlideApp.with(this).load(it.urlToImage).into(imgDetail)
             tvTitleDetail.text = it.title
             tvContentDetail.text = it.content ?: AppConstant.NO_CONTENT
             articleUrl = it.url

@@ -24,6 +24,8 @@ class LocalRepository @Inject constructor(private val articleDao: ArticleDao,
         }
     }
 
+    fun getFavoriteList() = favoriteDao.getFavorites()
+
     fun addFavorite(favorite: Favorite) = favoriteDao.insertFavorite(favorite)
 
     fun deleteFavorite(url: String) = favoriteDao.deleteFavorite(url)
