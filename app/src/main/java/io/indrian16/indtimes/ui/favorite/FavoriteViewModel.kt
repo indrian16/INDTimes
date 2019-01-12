@@ -17,19 +17,8 @@ class FavoriteViewModel @Inject constructor(private val localRepository: LocalRe
 
     private val compositeDisposable = CompositeDisposable()
 
-    init {
-
-        favoriteListStateLiveData.value = LoadingState(emptyList())
-    }
-
     fun updateFavorite() {
 
-        getFavoriteList()
-    }
-
-    fun refreshFavorite() {
-
-        favoriteListStateLiveData.value = LoadingState(emptyList())
         getFavoriteList()
     }
 
@@ -38,6 +27,7 @@ class FavoriteViewModel @Inject constructor(private val localRepository: LocalRe
         compositeDisposable += localRepository.getFavoriteList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { onLoading() }
                 .subscribe(this::onReceivedList, this::onError)
     }
 
@@ -51,6 +41,11 @@ class FavoriteViewModel @Inject constructor(private val localRepository: LocalRe
 
             favoriteListStateLiveData.value = EmptyState(emptyList())
         }
+    }
+
+    private fun onLoading() {
+
+        favoriteListStateLiveData.value = LoadingState(emptyList())
     }
 
     private fun onError(throwable: Throwable) {

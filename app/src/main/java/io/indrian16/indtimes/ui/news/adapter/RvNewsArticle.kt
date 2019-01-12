@@ -9,7 +9,7 @@ import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.di.module.GlideApp
 import kotlinx.android.synthetic.main.article_item.view.*
 
-class RvNewsArticle constructor(private val listener: OnNewsArticleOnClickListener) : RecyclerView.Adapter<RvNewsArticle.NewsHolder>() {
+class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : RecyclerView.Adapter<RvNewsArticle.NewsHolder>() {
 
     private var articleList: List<Article> = arrayListOf()
 
@@ -44,7 +44,8 @@ class RvNewsArticle constructor(private val listener: OnNewsArticleOnClickListen
 
                 tvTitle.text = article.title
                 GlideApp.with(this).load(article.urlToImage).into(imgArticle)
-                btnBookmark.setOnClickListener { listener.onClickBookmark(article) }
+
+                btnFavorite.setOnClickListener { listener.onClickBookmark(article) }
                 btnShare.setOnClickListener { listener.onClickShare(article.url) }
 
             }.setOnClickListener { listener.onClickNews(article) }

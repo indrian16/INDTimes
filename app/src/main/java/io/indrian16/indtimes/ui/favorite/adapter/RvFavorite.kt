@@ -43,6 +43,7 @@ class RvFavorite(private val listener: OnFavoriteClickListener) : RecyclerView.A
 
                 tvTitle.text = favorite.title
                 GlideApp.with(this).load(favorite.urlToImage).into(imgArticle)
+                btnShare.setOnClickListener { listener.onClickShare(favorite.url) }
 
             }.setOnClickListener { listener.onClickItem(favorite) }
         }
@@ -51,5 +52,7 @@ class RvFavorite(private val listener: OnFavoriteClickListener) : RecyclerView.A
     interface OnFavoriteClickListener {
 
         fun onClickItem(favorite: Favorite)
+
+        fun onClickShare(url: String)
     }
 }

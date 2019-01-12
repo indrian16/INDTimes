@@ -92,20 +92,6 @@
             android:fontFamily="@font/open_sans_semi_bold"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/btnTryAgain"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/tvNoDataMessage"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="12dp"
-            android:text="Try Again"
-            android:textColor="@color/whiteColor"
-            android:textAllCaps="false"
-            android:backgroundTint="@color/secondaryColor"
-            android:theme="@style/Widget.AppCompat.Button.Colored"
-            tools:ignore="UnusedAttribute" />
-
     </RelativeLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,6 +2,7 @@ package io.indrian16.indtimes.ui.news
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.github.ajalt.timberkt.e
 import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.data.repository.Repository
 import io.indrian16.indtimes.util.plusAssign
@@ -17,24 +18,9 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
     private val compositeDisposable = CompositeDisposable()
 
-    init {
-
-        newsListStateLiveData.value = LoadingState(emptyList())
-    }
-
     fun updateNews(category: String) {
 
         getNewsList(category)
-    }
-
-    fun refreshNews(category: String) {
-
-        newsListStateLiveData.value = LoadingState(emptyList())
-        getNewsList(category)
-    }
-
-    fun checkFavorite() {
-
     }
 
     private fun getNewsList(category: String) {
@@ -44,6 +30,7 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
                 .debounce(400, TimeUnit.MILLISECONDS)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
+                .doOnSubscribe { onLoading() }
                 .subscribe(this::onReceivedList, this::onError)
     }
 
@@ -51,10 +38,7 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
         if (dataList.isNotEmpty()) {
 
-            val currentData = obtainCurrentData().toMutableList()
-            currentData.addAll(dataList)
-
-            newsListStateLiveData.value = DefaultState(currentData)
+            newsListStateLiveData.value = DefaultState(dataList)
 
         } else {
 
@@ -62,12 +46,16 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
         }
     }
 
-    private fun onError(throwable: Throwable) {
+    private fun onLoading() {
 
-        newsListStateLiveData.value = ErrorState(throwable.message.toString(), obtainCurrentData())
+        newsListStateLiveData.value = LoadingState(emptyList())
     }
 
-    private fun obtainCurrentData() = newsListStateLiveData.value?.dataList ?: emptyList()
+    private fun onError(throwable: Throwable) {
+
+        newsListStateLiveData.value = ErrorState(throwable.message.toString(), emptyList())
+        e { "${throwable.message}" }
+    }
 
     override fun onCleared() {
         super.onCleared()

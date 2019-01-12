@@ -18,6 +18,7 @@ import io.indrian16.indtimes.data.model.Favorite
 import io.indrian16.indtimes.ui.base.BaseFragment
 import io.indrian16.indtimes.ui.detail.DetailArticleActivity
 import io.indrian16.indtimes.ui.favorite.adapter.RvFavorite
+import io.indrian16.indtimes.util.CommnonUtil
 import io.indrian16.indtimes.util.obtainViewModel
 import io.indrian16.indtimes.util.toGone
 import io.indrian16.indtimes.util.toVisible
@@ -28,8 +29,6 @@ class FavoriteFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, R
 
     companion object {
 
-        const val RV_FAVORITE_LAYOUT = "rvState"
-
         fun newInstance() = FavoriteFragment()
     }
 
@@ -38,7 +37,6 @@ class FavoriteFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, R
     private lateinit var viewModel: FavoriteViewModel
 
     private val mAdapter = RvFavorite(this)
-    private lateinit var rvState: Parcelable
 
     private val favoriteListStateObserver = Observer<FavoriteListState> { state ->
 
@@ -99,7 +97,6 @@ class FavoriteFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, R
 
         favoriteLayout.setOnRefreshListener(this)
         btnRefresh.setOnClickListener { onRefresh() }
-        btnTryAgain.setOnClickListener { onRefresh() }
 
         rvFavorite.apply {
 
@@ -116,7 +113,7 @@ class FavoriteFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, R
     override fun onRefresh() {
 
         mAdapter.clear()
-        viewModel.refreshFavorite()
+        viewModel.updateFavorite()
     }
 
     override fun onClickItem(favorite: Favorite) {
@@ -139,16 +136,15 @@ class FavoriteFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, R
         startActivity(intent)
     }
 
+    override fun onClickShare(url: String) {
+
+        CommnonUtil.shareArticle(activity!!, url)
+    }
+
     override fun onResume() {
         super.onResume()
 
-        viewModel.refreshFavorite()
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-
-        //outState.putParcelable(RV_FAVORITE_LAYOUT, rvFavorite.layoutManager?.onSaveInstanceState())
+        viewModel.updateFavorite()
     }
 
     private fun defaultLayoutState() {

@@ -5,28 +5,29 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/tvHeader"
+        android:id="@+id/tvHeadTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="18dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginTop="54dp"
-        android:fontFamily="@font/open_sans_bold"
+        android:layout_marginTop="42dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/open_sans_semi_bold"
         android:text="@string/app_name"
-        android:textSize="24sp" />
+        android:textSize="20sp"
+        android:textColor="@color/primaryDarkColor"/>
 
     <TextView
-        android:id="@+id/tvHeader2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/tvHeadTitle"
         android:layout_marginTop="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_below="@id/tvHeader"
-        android:text="The latest news in Indonesia"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:fontFamily="@font/open_sans_regular"
+        android:text="@string/times_now_indonesia"
         android:textSize="16sp"
-        android:fontFamily="@font/open_sans_regular"/>
+        android:textColor="@color/primaryColor"/>
 </RelativeLayout>

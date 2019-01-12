@@ -126,7 +126,7 @@ class NewsFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, RvNew
     override fun onRefresh() {
 
         mAdapter.clear()
-        viewModel.refreshNews(currentCategory)
+        viewModel.updateNews(currentCategory)
     }
 
     override fun onClickNews(article: Article) {

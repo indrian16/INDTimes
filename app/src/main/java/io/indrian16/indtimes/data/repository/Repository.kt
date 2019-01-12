@@ -28,4 +28,6 @@ class Repository @Inject constructor(private val context: Context,
 
         return remoteRepository.getEverything(query)
     }
+
+    fun getFavoriteIsExist(url: String) = localRepository.getFavoriteIsExist(url)
 }
