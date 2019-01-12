@@ -2,7 +2,6 @@ package io.indrian16.indtimes.ui.news
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.ajalt.timberkt.d
 import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.data.repository.Repository
 import io.indrian16.indtimes.util.plusAssign
@@ -32,6 +31,10 @@ class NewsViewModel @Inject constructor(private val repository: Repository) : Vi
 
         newsListStateLiveData.value = LoadingState(emptyList())
         getNewsList(category)
+    }
+
+    fun checkFavorite() {
+
     }
 
     private fun getNewsList(category: String) {

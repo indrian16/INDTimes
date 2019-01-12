@@ -4,10 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.navigation.NavigationView
+import androidx.fragment.app.Fragment
 import androidx.appcompat.app.ActionBarDrawerToggle
-import android.view.Gravity
 import android.view.Menu
 import android.view.MenuItem
+import androidx.core.view.GravityCompat
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
@@ -101,11 +102,11 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
     }
 
     @Inject
-    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<androidx.fragment.app.Fragment>
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Fragment>
 
     private var currentCategory = Category.ALL
 
-    override fun supportFragmentInjector(): AndroidInjector<androidx.fragment.app.Fragment> = dispatchingAndroidInjector
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = dispatchingAndroidInjector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -131,9 +132,9 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
     private fun initView() {
 
         val toggle = ActionBarDrawerToggle(
-                this, mainDrawer, mainToolbar,
-                R.string.navigation_drawer_open,
-                R.string.navigation_drawer_close)
+            this, mainDrawer, mainToolbar,
+            R.string.navigation_drawer_open,
+            R.string.navigation_drawer_close)
         mainDrawer.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -153,7 +154,7 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
 
             android.R.id.home -> {
 
-                mainDrawer.openDrawer(Gravity.START)
+                mainDrawer.openDrawer(GravityCompat.START)
                 true
             }
 
@@ -174,7 +175,7 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
 
     }
 
-    private fun changeFragmentWithBot(fragment: androidx.fragment.app.Fragment) {
+    private fun changeFragmentWithBot(fragment: Fragment) {
 
         supportFragmentManager.beginTransaction()
             .replace(R.id.mainContainer, fragment)
@@ -184,15 +185,15 @@ class MainActivity : BaseActivity(), HasSupportFragmentInjector {
     private fun changeFragmentWithDrawer() {
 
         supportFragmentManager.beginTransaction()
-                .replace(R.id.mainContainer, NewsFragment.newInstance(currentCategory))
-                .commit()
+            .replace(R.id.mainContainer, NewsFragment.newInstance(currentCategory))
+            .commit()
         mainDrawer.closeDrawers()
         mainBotNavView.selectedItemId = R.id.navNews
     }
 
     override fun onBackPressed() {
 
-        if (mainDrawer.isDrawerOpen(Gravity.START)) {
+        if (mainDrawer.isDrawerOpen(GravityCompat.START)) {
             mainDrawer.closeDrawers()
         } else {
             super.onBackPressed()

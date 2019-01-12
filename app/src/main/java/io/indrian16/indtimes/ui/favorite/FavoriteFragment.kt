@@ -119,7 +119,7 @@ class FavoriteFragment : BaseFragment(), SwipeRefreshLayout.OnRefreshListener, R
         viewModel.refreshFavorite()
     }
 
-    override fun onClickFavorite(favorite: Favorite) {
+    override fun onClickItem(favorite: Favorite) {
 
         val currentArticle = Article(
             saveTime = favorite.saveTime,

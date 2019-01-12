@@ -7,7 +7,9 @@ import io.indrian16.indtimes.data.api.NewsService
 import io.indrian16.indtimes.data.db.ArticleDao
 import io.indrian16.indtimes.data.db.FavoriteDao
 import io.indrian16.indtimes.data.repository.LocalRepository
+import io.indrian16.indtimes.data.repository.RemoteRepository
 import io.indrian16.indtimes.data.repository.Repository
+import javax.inject.Singleton
 
 @Module
 class RepositoryModule {
@@ -16,10 +18,14 @@ class RepositoryModule {
     fun provideLocalRepository(articleDao: ArticleDao, favoriteDao: FavoriteDao) = LocalRepository(articleDao, favoriteDao)
 
     @Provides
+    fun provideRemoteRepository(newsService: NewsService) = RemoteRepository(newsService)
+
+    @Provides
+    @Singleton
     fun provideRepository(context: Context,
                           localRepository: LocalRepository,
-                          newsService: NewsService): Repository {
+                          remoteRepository: RemoteRepository): Repository {
 
-        return Repository(context, localRepository, newsService)
+        return Repository(context, localRepository, remoteRepository)
     }
 }

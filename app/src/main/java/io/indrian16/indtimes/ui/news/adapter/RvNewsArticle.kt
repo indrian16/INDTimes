@@ -9,7 +9,7 @@ import io.indrian16.indtimes.data.model.Article
 import io.indrian16.indtimes.di.module.GlideApp
 import kotlinx.android.synthetic.main.article_item.view.*
 
-class RvNewsArticle(private val listener: OnNewsArticleOnClickListener) : RecyclerView.Adapter<RvNewsArticle.NewsHolder>() {
+class RvNewsArticle constructor(private val listener: OnNewsArticleOnClickListener) : RecyclerView.Adapter<RvNewsArticle.NewsHolder>() {
 
     private var articleList: List<Article> = arrayListOf()
 
