@@ -2,6 +2,8 @@ package io.indrian16.indtimes.util
 
 object AppConstant {
 
+    const val LENGTH_SPLASH_SCREEN = 1500L
+
     const val PageNews = "News"
     const val PageBookmark = "Bookmark"
 
