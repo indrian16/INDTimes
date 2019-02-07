@@ -8,7 +8,7 @@ Feature:
 - Search News
 - Share
 
-> [Download APK](https://www.dropbox.com/s/fs28ucbhk73107j/INDTime.apk?dl=0)
+> [Download APK](https://indtimes.en.aptoide.com)
 
 ## Screenshoot
 <img src="https://developers.uptodown.com/tmpfiles/746913-001.jpg" alt="1" width="250" height="420"> <img src="https://developers.uptodown.com/tmpfiles/746913-002.jpg" alt="2" width="250" height="420"> <img src="https://developers.uptodown.com/tmpfiles/746913-003.jpg" alt="3" width="250" height="420"> </br>
